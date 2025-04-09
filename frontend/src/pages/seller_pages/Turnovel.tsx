@@ -2,6 +2,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/authStore";
 import HeaderSeller from "../../layouts/HeaderSeller";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Turnovel() {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -9,8 +11,8 @@ export default function Turnovel() {
   return (
     <div className="m-0 p-0">
       <HeaderSeller />
-      <div className="flex gap-2 justify-center py-5 px-2">
-        <section className="h-[95%] rounded flex justify-center bg-white">
+      <div className="flex gap-2 py-5 px-2">
+        <section className="h-[95%] rounded flex justify-center bg-white w-[20%]">
           {user && (
             <ul className="w-full h-full flex flex-col justify-center gap-2 rounded shadow-[0px_0px_3px_1px_rgba(0,0,0,0.75)] p-2">
               <li className="flex items-center justify-center mb-3">
@@ -52,75 +54,10 @@ export default function Turnovel() {
             </ul>
           )}
         </section>
-        <section className="flex flex-col gap-3">
+        <section className="flex flex-col gap-3 w-[80%]">
           {/* filter */}
-          <ul className="flex gap-1">
-            <li>
-              <button className="border-gray-500 border-[1.5px] rounded px-2">
-                Tháng 1
-              </button>
-            </li>
-            <li>
-              <button className="border-gray-500 border-[1.5px] rounded px-2">
-                Tháng 2
-              </button>
-            </li>
-            <li>
-              <button className="border-gray-500 border-[1.5px] rounded px-2">
-                Tháng 3
-              </button>
-            </li>
-            <li>
-              <button className="border-gray-500 border-[1.5px] rounded px-2">
-                Tháng 4
-              </button>
-            </li>
-            <li>
-              <button className="border-gray-500 border-[1.5px] rounded px-2">
-                Tháng 5
-              </button>
-            </li>
-            <li>
-              <button className="border-gray-500 border-[1.5px] rounded px-2">
-                Tháng 6
-              </button>
-            </li>
-            <li>
-              <button className="border-gray-500 border-[1.5px] rounded px-2">
-                Tháng 7
-              </button>
-            </li>
-            <li>
-              <button className="border-gray-500 border-[1.5px] rounded px-2">
-                Tháng 8
-              </button>
-            </li>
-            <li>
-              <button className="border-gray-500 border-[1.5px] rounded px-2">
-                Tháng 9
-              </button>
-            </li>
-            <li>
-              <button className="border-gray-500 border-[1.5px] rounded px-2">
-                Tháng 10
-              </button>
-            </li>
-            <li>
-              <button className="border-gray-500 border-[1.5px] rounded px-2">
-                Tháng 11
-              </button>
-            </li>
-            <li>
-              <button className="border-gray-500 border-[1.5px] rounded px-2">
-                Tháng 12
-              </button>
-            </li>
-          </ul>
           {/* search */}
-          <form
-            action=""
-            className="w-full flex items-center justify-center"
-          >
+          <form action="" className="w-full flex items-center justify-center">
             <div className="w-[500px] relative h-[35px]">
               <input
                 type="text"
@@ -129,10 +66,23 @@ export default function Turnovel() {
                 placeholder="Nhập từ khóa để tìm kiếm"
               />
               <button className="bg-green-500 rounded-r-lg absolute h-full right-0 w-[50px]">
-                <FontAwesomeIcon icon={["fas", "search"]} className="text-white"/>
+                <FontAwesomeIcon
+                  icon={["fas", "search"]}
+                  className="text-white"
+                />
               </button>
             </div>
           </form>
+          {/* select mont */}
+          <div className="flex items-center justify-center">
+            <p className="mx-2"> Chọn tháng:</p>
+            <DatePicker
+              dateFormat="MM/yyyy"
+              selected={new Date()}
+              showMonthYearPicker
+              className="border-[1.5px] border-gray-500 rounded px-2 text-sm"
+            />
+          </div>
         </section>
       </div>
     </div>

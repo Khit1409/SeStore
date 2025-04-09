@@ -46,3 +46,9 @@
 git clone https://github.com/Khit1409/SeStore.git
 cd SeStore
 ```
+
+## 📌 To do list today
+
+1. Tạo xong các trang seller
+2. Tạo api sản phẩm
+3. code chức năng phân trang lọc tìm kiếm

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { DecodedUser, initialState } from "./type";
 // Environment variables
-// const authUrl = import.meta.env.VITE_AUTH_API;
+const authUrl = import.meta.env.VITE_AUTH_API;
 
 /* ----------- Async Thunks ----------- */
 // Kiểm tra xác thực
@@ -12,7 +12,7 @@ export const fetchAuth = createAsyncThunk<
   { rejectValue: string }
 >("auth/fetchAuth", async (_, thunkAPI) => {
   try {
-    const response = await axios.get(`http://localhost:5000/api/auths/check`, {
+    const response = await axios.get(`${authUrl}/check`, {
       withCredentials: true,
     });
     return response.data.decoded as DecodedUser;
@@ -33,7 +33,7 @@ export const login = createAsyncThunk<
 >("auth/login", async (formData, thunkAPI) => {
   try {
     const response = await axios.post(
-      "http://localhost:5000/api/auths/login",
+      `${authUrl}/login`,
       formData,
       {
         withCredentials: true,
@@ -57,7 +57,7 @@ export const logout = createAsyncThunk<void, void, { rejectValue: string }>(
   async (_, thunkAPI) => {
     try {
       await axios.post(
-        `http://localhost:5000/api/auths/logout`,
+        `${authUrl}/logout`,
         {},
         { withCredentials: true }
       );
@@ -89,7 +89,7 @@ export const register = createAsyncThunk<
 >("auth/register", async (formData, thunkAPI) => {
   try {
     const response = await axios.post(
-      `http://localhost:5000/api/auths/register`,
+      `${authUrl}/register`,
       formData,
       {
         withCredentials: true,

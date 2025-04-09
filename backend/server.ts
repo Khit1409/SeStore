@@ -14,7 +14,7 @@ connectDB();
 
 //cors
 const corsOptions = {
-  origin: "http://localhost:5173", // Cho phép kết nối từ frontend
+  origin: ["http://localhost:5173", "http://192.168.1.3:5173"], // Cho phép kết nối từ frontend
   credentials: true, // Cho phép gửi cookie và xác thực (credentials)
 };
 
@@ -26,7 +26,7 @@ server.use(cors(corsOptions));
 //routes
 server.use("/api/auths", authRoutes);
 // Khởi tạo server
-const port = process.env.PORT || 5000;
+const port = Number(process.env.PORT) || 5000;
 
 server.listen(port, () => {
   console.log(`Server is running on port ${port}`);

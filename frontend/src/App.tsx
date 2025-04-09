@@ -5,7 +5,9 @@ import { AppDispatch, RootState } from "./redux/authStore";
 import UserLayouts from "./layouts/UserLayouts";
 import AdminLayouts from "./layouts/AdminLayouts";
 import SellerLayouts from "./layouts/SellerLayouts";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 export default function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -18,7 +20,14 @@ export default function App() {
     });
   }, [dispatch]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <div className="w-screen h-screen bg-[url('/banner.png') bg-cover bg-center bg-no-repeat]">
+        <div className="w-full h-full flex items-center justify-center backdrop-blur-lg">
+          <div className="border-2 border-t-transparent rounded-full border-gray-500 animate-spin w-[50px] h-[50px]" />
+        </div>
+      </div>
+    );
 
   let LayoutToRender;
 
@@ -37,7 +46,12 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <LayoutToRender />
+      <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        {/* Còn lại render theo role */}
+        <Route path="/*" element={<LayoutToRender />} />
+      </Routes>
     </BrowserRouter>
   );
 }

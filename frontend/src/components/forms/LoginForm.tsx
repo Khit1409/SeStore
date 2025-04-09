@@ -12,8 +12,8 @@ type Data = {
 };
 
 export default function LoginForm() {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [mess, setMess] = useState<string>("");
   const dispatch = useDispatch<AppDispatch>();
   const [data, setData] = useState<Data>({
@@ -41,11 +41,12 @@ export default function LoginForm() {
       );
       setLoading(false);
       if (login.fulfilled.match(result)) {
-        navigate("/");
+        setMess("*Đăng nhập thành công!");
       } else {
         setMess("*Thông tin bạn cung cấp không chính xác!");
       }
     }, 1000);
+    navigate("/");
   };
   return (
     <div className="w-screen h-screen bg-[url('/banner.png')] bg-cover bg-center bg-no-repeat">
