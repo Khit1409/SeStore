@@ -32,13 +32,9 @@ export const login = createAsyncThunk<
   { rejectValue: string } // Lỗi trả về
 >("auth/login", async (formData, thunkAPI) => {
   try {
-    const response = await axios.post(
-      `${authUrl}/login`,
-      formData,
-      {
-        withCredentials: true,
-      }
-    );
+    const response = await axios.post(`${authUrl}/login`, formData, {
+      withCredentials: true,
+    });
 
     // server trả về: { user, token }
     return response.data.user as DecodedUser;
@@ -56,11 +52,7 @@ export const logout = createAsyncThunk<void, void, { rejectValue: string }>(
   "auth/logout",
   async (_, thunkAPI) => {
     try {
-      await axios.post(
-        `${authUrl}/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axios.post(`${authUrl}/logout`, {}, { withCredentials: true });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         return thunkAPI.rejectWithValue(
@@ -88,14 +80,10 @@ export const register = createAsyncThunk<
   { rejectValue: string }
 >("auth/register", async (formData, thunkAPI) => {
   try {
-    const response = await axios.post(
-      `${authUrl}/register`,
-      formData,
-      {
-        withCredentials: true,
-      }
-    );
-    return response.data.user;
+    const response = await axios.post(`${authUrl}/register`, formData, {
+      withCredentials: true,
+    });
+    return response.data.user as DecodedUser;
   } catch (error) {
     if (error instanceof axios.AxiosError) {
       return thunkAPI.rejectWithValue(
@@ -111,7 +99,11 @@ export const register = createAsyncThunk<
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    clearError: (state) => {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
 
@@ -162,3 +154,4 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+export const { clearError } = authSlice.actions;

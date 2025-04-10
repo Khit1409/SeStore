@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 // import UserTable from "../users/UserTable";
@@ -11,6 +11,7 @@ export default function Navbar() {
   const { isAuthenticate } = useSelector((state: RootState) => state.auth);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [showUser, setShowUser] = useState<boolean>(false);
+  const navigate = useNavigate();
   // const [show, setShow] = useState<boolean>(false);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -26,6 +27,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate("/login");
   };
   return (
     <section className="container-lg flex items-center justify-around pt-1 fixed z-50 w-screen">
@@ -57,7 +59,7 @@ export default function Navbar() {
               to="/about"
               className="hover:border-b-[1.5px] hover:border-b-gray-500"
             >
-             Thông tin
+              Thông tin
             </Link>
           </li>
           <li>

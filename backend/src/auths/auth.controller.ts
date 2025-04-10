@@ -2,28 +2,29 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { Request, Response } from "express";
 import Account from "../models/Account";
 import bcrypt from "bcrypt";
-import { handlePassword, verifyToken } from "./auth.middleware";
+import { handlePassword } from "./auth.middleware";
 // import { handlePassword } from "./auth.middleware";
 
 // Check Auth
 export const checkAuth = async (req: Request, res: Response) => {
   try {
     const token = req.cookies.token;
-
-    //verify token
-    const decoded = verifyToken(req, res, token);
-
+    if (!token) {
+      return res.status(401).json({
+        message: "KHÔNG TÌM THẤY TOKEN (HẾT HẠN HOẶC CHƯA ĐĂNG NHẬP)",
+      });
+    }
+    //xác thực token
+    const decoded = jwt.verify(
+      token,
+      process.env.SECRET_KEY as string
+    ) as JwtPayload;
+    if (!decoded) {
+      return res.status(401).json({ message: "token is not invalid!" });
+    }
     return res.status(200).json({ message: "Token valid!", decoded, token });
   } catch (error: any) {
-    if (error.name === "TokenExpiredError") {
-      return res.status(401).json({ message: "Token has expired!" });
-    } else if (error.name === "JsonWebTokenError") {
-      return res.status(401).json({ message: "Token is not valid!" });
-    } else {
-      return res
-        .status(500)
-        .json({ message: "Error checking authentication", error });
-    }
+    return res.status(404).json({ message: "Không thể check phiên đăng nhập" });
   }
 };
 //
@@ -73,7 +74,7 @@ export const postLogin = async (req: Request, res: Response) => {
         maxAge: 24 * 60 * 60 * 1000, // Token có thời gian sống 1 ngày
       })
       .status(200)
-      .json({ message: "Sign successful", user: account });
+      .json({ message: "ĐĂNG NHẬP THÀNH CÔNG: ", user: account });
   } catch (error) {
     res.status(404).json({ message: "Cannot login!", error });
   }
@@ -125,7 +126,7 @@ export const postLogout = async (req: Request, res: Response) => {
   try {
     const token = req.cookies.token;
     if (!token) {
-      return res.status(401).json({ message: "Cant get token~~!" });
+      return res.status(401).json({ message: "TOKEN KHÔNG TỒN TẠI" });
     }
     return res
       .status(200)

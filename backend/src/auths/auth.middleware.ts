@@ -21,15 +21,3 @@ export const handlePassword = async (
 };
 
 //verifyToken
-export const verifyToken = (req: Request, res: Response, token: string) => {
-  if (!token) {
-    return res.status(401).json({ message: "Token not provided!" });
-  }
-  // Giải mã token và xác nhận tính hợp lệ
-  const decoded = jwt.verify(
-    token,
-    process.env.SECRET_KEY as string
-  ) as JwtPayload;
-
-  return decoded;
-};
