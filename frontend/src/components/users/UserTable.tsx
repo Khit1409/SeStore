@@ -14,46 +14,42 @@ export default function UserTable() {
 
   return (
     //container
-    <div className="absolute top-15 right-5">
-      <div className="rounded flex items-start justify-center p-10 bg-white">
+    <div className="absolute top-12 right-5 bg-gray-500 rounded p-2 w-[300px] flex items-center justify-center">
+      <div className="bg-gray-300 h-[95%] w-[95%] rounded gap-2 flex flex-col p-2">
         {user ? (
-          <ul className="flex flex-col justify-center gap-2 p-10 rounded shadow-[0px_0px_3px_1px_rgba(0,0,0,0.75)] ">
-            <li className="flex items-center justify-center mb-3">
-              <img
-                src={user.avatar}
-                alt="avatar"
-                className="w-[100px] h-[100px] rounded-full"
-              />
-            </li>
-            <li className="bg-gray-100 rounded flex text-center px-1">
-              <span className="font-bold mx-1"> Tên: </span>
-              <p>{user.fullname}</p>
-            </li>
-            <li className="bg-gray-100 rounded flex text-center px-1">
-              <span className="font-bold mx-1"> Email:</span> <p>{user.email}</p>
-            </li>
-            <li className="bg-gray-100 rounded flex text-center px-1">
-              <span className="font-bold mx-1">Phone: </span>
-              <p>{user.phone}</p>
-            </li>
-            <li className="bg-gray-100 rounded flex text-center px-1">
-              <span className="font-bold mx-1">Địa chỉ:</span>
-              <p> {user.address}</p>
-            </li>
-            <li className="bg-gray-100 rounded flex text-center px-1">
-              <span className="font-bold mx-1">Quyền:</span>
-              <p> {user.role}</p>
-            </li>
-            {/* logout btn */}
-            <li className="flex items-center justify-center mt-10">
-              <button
-                type="button"
-                className="flex w-[80px] items-center justify-center rounded bg-cyan-500 text-xl font-bold text-white py-1"
-              >
-                Logout
-              </button>
-            </li>
-          </ul>
+          <>
+            <div className="h-[30%] flex items-center justify-center">
+              <span>
+                <img
+                  src={user.avatar}
+                  alt=""
+                  className="w-[100px] h-[100px] rounded-full object-cover"
+                />
+              </span>
+            </div>
+            <div className="h-[70%] flex flex-col items-start mx-2">
+              <span className="flex gap-2">
+                <strong>Tên:</strong>
+                <p>{user.fullname}</p>
+              </span>
+              <span className="flex gap-2">
+                <strong>Email:</strong>
+                <p>{user.email}</p>
+              </span>
+              <span className="flex gap-2">
+                <strong>Số điện thoại:</strong>
+                <p>{user.phone}</p>
+              </span>
+              <span className="flex gap-2">
+                <strong>Địa chỉ:</strong>
+                <p>{user.address}</p>
+              </span>
+              <span className="flex gap-2">
+                <strong>Quyền:</strong>
+                <p>{user.role}</p>
+              </span>
+            </div>
+          </>
         ) : (
           <div className="w-[200px] h-[200px] flex items-center justify-center flex-col gap-2">
             {loading ? (

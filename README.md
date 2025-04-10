@@ -49,6 +49,7 @@ cd SeStore
 
 ## 📌 To do list today
 
-1. Tạo xong các trang seller
-2. Tạo api sản phẩm
-3. code chức năng phân trang lọc tìm kiếm
+1. Thiết kế Database cho Oder Cart
+2. Tạo trang cho seller quản lý doanh thu
+3. Tạo trang product detail
+4. Tạo trang thanh toán

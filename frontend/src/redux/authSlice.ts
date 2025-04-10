@@ -15,6 +15,14 @@ export const fetchAuth = createAsyncThunk<
     const response = await axios.get(`${authUrl}/check`, {
       withCredentials: true,
     });
+    const decoded = response.data.decoded;
+    // kiểm tra sự tồn tại của token
+    if (!decoded) {
+      return thunkAPI.rejectWithValue(
+        "TOKEN KHÔNG CÒN TỒN TẠI HOẶC ĐÃ HẾT HẠN"
+      );
+    }
+    //return
     return response.data.decoded as DecodedUser;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -25,6 +33,7 @@ export const fetchAuth = createAsyncThunk<
     return thunkAPI.rejectWithValue("Đã xảy ra lỗi không xác định");
   }
 });
+
 // Đăng nhập
 export const login = createAsyncThunk<
   DecodedUser, // Kết quả trả về
@@ -37,7 +46,12 @@ export const login = createAsyncThunk<
     });
 
     // server trả về: { user, token }
-    return response.data.user as DecodedUser;
+    const res = response.data.user as DecodedUser;
+    if (res) {
+      return res;
+    } else {
+      return thunkAPI.rejectWithValue("Đăng nhập thất bại");
+    }
   } catch (error) {
     if (axios.isAxiosError(error)) {
       return thunkAPI.rejectWithValue(
@@ -47,6 +61,7 @@ export const login = createAsyncThunk<
     return thunkAPI.rejectWithValue("Đã xảy ra lỗi không xác định");
   }
 });
+
 // Đăng xuất
 export const logout = createAsyncThunk<void, void, { rejectValue: string }>(
   "auth/logout",
@@ -63,6 +78,7 @@ export const logout = createAsyncThunk<void, void, { rejectValue: string }>(
     }
   }
 );
+
 //Đăng ký
 export const register = createAsyncThunk<
   DecodedUser,

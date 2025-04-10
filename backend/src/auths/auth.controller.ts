@@ -5,7 +5,6 @@ import bcrypt from "bcrypt";
 import { handlePassword } from "./auth.middleware";
 // import { handlePassword } from "./auth.middleware";
 
-// Check Auth
 export const checkAuth = async (req: Request, res: Response) => {
   try {
     const token = req.cookies.token;
@@ -14,19 +13,31 @@ export const checkAuth = async (req: Request, res: Response) => {
         message: "KHÔNG TÌM THẤY TOKEN (HẾT HẠN HOẶC CHƯA ĐĂNG NHẬP)",
       });
     }
-    //xác thực token
+
     const decoded = jwt.verify(
       token,
       process.env.SECRET_KEY as string
     ) as JwtPayload;
-    if (!decoded) {
-      return res.status(401).json({ message: "token is not invalid!" });
+
+    // Nếu decode không có accountId thì coi như không hợp lệ
+    if (!decoded || !decoded.accountId) {
+      return res.status(401).json({ message: "Token không hợp lệ!" });
     }
+
     return res.status(200).json({ message: "Token valid!", decoded, token });
   } catch (error: any) {
-    return res.status(404).json({ message: "Không thể check phiên đăng nhập" });
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token đã hết hạn!" });
+    }
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({ message: "Token sai định dạng!" });
+    }
+    return res
+      .status(500)
+      .json({ message: "Không thể check phiên đăng nhập", error });
   }
 };
+
 //
 //login
 export const postLogin = async (req: Request, res: Response) => {
