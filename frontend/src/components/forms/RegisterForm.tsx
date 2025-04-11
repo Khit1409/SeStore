@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { register } from "../../redux/authSlice";
+import { register } from "../../features/auths/authSlice";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/authStore";
+import { AppDispatch } from "../../features/auths/authStore";
 
 export type RegisterData = {
   fullname: string;

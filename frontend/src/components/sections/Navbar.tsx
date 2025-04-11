@@ -2,27 +2,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 // import UserTable from "../users/UserTable";
-import { AppDispatch, RootState } from "../../redux/authStore";
+import { AppDispatch, RootState } from "../../features/auths/authStore";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../redux/authSlice";
-import UserTable from "../users/UserTable";
+import { logout } from "../../features/auths/authSlice";
 
 export default function Navbar() {
   const { isAuthenticate } = useSelector((state: RootState) => state.auth);
   const [showMenu, setShowMenu] = useState<boolean>(false);
-  const [showUser, setShowUser] = useState<boolean>(false);
   const navigate = useNavigate();
   // const [show, setShow] = useState<boolean>(false);
 
   const dispatch = useDispatch<AppDispatch>();
   const responsiveToggle = () => {
-    setShowUser(false);
     setShowMenu((prev) => !prev);
-  };
-
-  const handleShowUser = () => {
-    setShowMenu(false);
-    setShowUser((prev) => !prev);
   };
 
   const handleLogout = () => {
@@ -72,7 +64,6 @@ export default function Navbar() {
           </li>
         </ul>
         {/* inforuser */}
-        {showUser ? <UserTable /> : <></>}
         {/* button group */}
         <div className="flex gap-2 mx-2 justify-around">
           {isAuthenticate ? (
@@ -86,23 +77,12 @@ export default function Navbar() {
           ) : (
             <Link
               to="/login"
-              className="flex w-[80px] items-center justify-center rounded bg-cyan-500 text-xl font-bold text-white"
+              className="flex w-[80px] items-center justify-center rounded bg-cyan-500 text-xl font-bold text-white py-1"
             >
               Sign in
             </Link>
           )}
 
-          {/* user icon */}
-          <button
-            onClick={handleShowUser}
-            type="button"
-            className="h-[40px] w-[40px] bg-gray-400 rounded"
-          >
-            <FontAwesomeIcon
-              icon={["fas", "user-circle"]}
-              className="h-[40px] w-[40px] text-2xl text-white"
-            />
-          </button>
           {/* responsive toggle */}
           <button
             onClick={responsiveToggle}

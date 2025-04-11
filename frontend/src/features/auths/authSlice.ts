@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { DecodedUser, initialState } from "./type";
+import { DecodedUser, initialState } from "../type";
 // Environment variables
 const authUrl = import.meta.env.VITE_AUTH_API;
 

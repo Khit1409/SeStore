@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAuth } from "./redux/authSlice";
-import { AppDispatch, RootState } from "./redux/authStore";
-import UserLayouts from "./layouts/UserLayouts";
-import AdminLayouts from "./layouts/AdminLayouts";
-import SellerLayouts from "./layouts/SellerLayouts";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AppDispatch, RootState } from "./features/auths/authStore";
+import { useEffect, useState } from "react";
+import { fetchAuth } from "./features/auths/authSlice";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AdminHome from "./pages/admin/AdminHome";
+import Start from "./pages/Start";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import SellerHome from "./pages/sellers/SellerHome";
+import UserHome from "./pages/users/UserHome";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 export default function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -22,36 +24,79 @@ export default function App() {
 
   if (loading)
     return (
-      <div className="w-screen h-screen bg-[url('/banner.png') bg-cover bg-center bg-no-repeat]">
+      <div className="w-screen h-screen bg-[url('/banner.png')] bg-cover bg-center bg-no-repeat">
         <div className="w-full h-full flex items-center justify-center backdrop-blur-lg">
           <div className="border-2 border-t-transparent rounded-full border-gray-500 animate-spin w-[50px] h-[50px]" />
         </div>
       </div>
     );
 
-  let LayoutToRender;
+  // Khởi tạo router bên trong component
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Start />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/register",
+      element: <Register />,
+    },
 
-  switch (user?.role) {
-    case "admin":
-      LayoutToRender = AdminLayouts;
-      break;
-    case "seller":
-      LayoutToRender = SellerLayouts;
-      break;
-    case "user":
-    default:
-      LayoutToRender = UserLayouts;
-      break;
-  }
+    // 🛡️ ADMIN
+    {
+      element: (
+        <ProtectedRoute allowedRoles={["admin"]} currentRole={user?.role} />
+      ),
+      children: [
+        {
+          path: "/admin",
+          element: <AdminHome />,
+          children: [
+            { path: "manager_users", element: <>MANAGER ACCOUNT</> },
+            { path: "support", element: <>Support</> },
+            { path: "mananger_sellers", element: <>Seller</> },
+          ],
+        },
+      ],
+    },
 
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        {/* Còn lại render theo role */}
-        <Route path="/*" element={<LayoutToRender />} />
-      </Routes>
-    </BrowserRouter>
-  );
+    // 🛡️ SELLER
+    {
+      element: (
+        <ProtectedRoute allowedRoles={["seller"]} currentRole={user?.role} />
+      ),
+      children: [
+        {
+          path: "/seller",
+          element: <SellerHome />,
+          children: [{ path: "product", element: <>Quản lý sản phẩm</> }],
+        },
+      ],
+    },
+
+    // 🛡️ USER
+    {
+      element: (
+        <ProtectedRoute allowedRoles={["user"]} currentRole={user?.role} />
+      ),
+      children: [
+        {
+          path: "/user",
+          element: <UserHome />,
+          children: [
+            { path: "profile", element: <></> },
+            { path: "cart", element: <></> },
+            { path: "shop", element: <>Shop</> },
+          ],
+        },
+      ],
+    },
+  ]);
+
+  // Trả về RouterProvider
+  return <RouterProvider router={router} />;
 }

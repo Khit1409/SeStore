@@ -1,10 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LoaddingAnimation from "../loadings/LoaddingAnimation";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/authStore";
+import { AppDispatch } from "../../features/auths/authStore";
 import { useState } from "react";
-import { login } from "../../redux/authSlice";
+import { login } from "../../features/auths/authSlice";
 
 type Data = {
   email: string;
@@ -13,7 +12,6 @@ type Data = {
 
 export default function LoginForm() {
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const [mess, setMess] = useState<string>("");
   const dispatch = useDispatch<AppDispatch>();
   const [data, setData] = useState<Data>({
@@ -46,7 +44,6 @@ export default function LoginForm() {
         setMess("*Thông tin bạn cung cấp không chính xác!");
       }
     }, 1000);
-    navigate("/");
   };
   return (
     <div className="w-screen h-screen bg-[url('/banner.png')] bg-cover bg-center bg-no-repeat">
