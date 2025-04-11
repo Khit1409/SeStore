@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
 
 //hash password
 export const handlePassword = async (

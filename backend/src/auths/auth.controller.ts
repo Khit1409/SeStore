@@ -65,9 +65,7 @@ export const postLogin = async (req: Request, res: Response) => {
         accountId: account._id,
         avatar: account.avatar,
         fullname: account.fullname,
-        address: account.address,
         phone: account.phone,
-        birthday: account.birthday,
         email: account.email,
         role: account.role,
       },
@@ -99,8 +97,6 @@ export const postRegister = async (req: Request, res: Response) => {
       password,
       repassword,
       phone,
-      birthday,
-      address,
       avatar,
       role,
     } = req.body;
@@ -118,8 +114,6 @@ export const postRegister = async (req: Request, res: Response) => {
       password: hashPass,
       avatar: avatar,
       phone,
-      birthday,
-      address,
       role: role,
     });
 

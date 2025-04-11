@@ -2,9 +2,7 @@ export type DecodedUser = {
   userId: string;
   avatar: string;
   fullname: string;
-  address: string;
   phone: string;
-  birthday: string;
   email: string;
   role: string;
 };

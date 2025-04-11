@@ -88,9 +88,7 @@ export const register = createAsyncThunk<
     repassword: string;
     phone: string;
     role: string;
-    address: string;
     fullname: string;
-    birthday: string;
     avatar: string;
   },
   { rejectValue: string }

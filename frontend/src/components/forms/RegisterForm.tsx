@@ -7,10 +7,8 @@ import { AppDispatch } from "../../redux/authStore";
 
 export type RegisterData = {
   fullname: string;
-  address: string;
   phone: string;
   avatar: string;
-  birthday: string;
   email: string;
   role: string;
   repassword: string;
@@ -24,9 +22,7 @@ export default function RegisterForm() {
   const [data, setData] = useState<RegisterData>({
     fullname: "",
     email: "",
-    address: "",
     password: "",
-    birthday: "",
     avatar: "",
     role: "",
     phone: "",
@@ -55,8 +51,6 @@ export default function RegisterForm() {
         register({
           email: data.email,
           role: data.role,
-          address: data.address,
-          birthday: data.birthday,
           fullname: data.fullname,
           password: data.password,
           phone: data.password,
@@ -143,32 +137,6 @@ export default function RegisterForm() {
                 />
               </div>
 
-              {/* address */}
-              <div className="flex flex-col">
-                <label htmlFor="" className="mx-2">
-                  <FontAwesomeIcon icon={["fas", "address-book"]} />
-                </label>
-                <input
-                  onChange={handleOnchange}
-                  type="text"
-                  name="address"
-                  placeholder="Nhập địa chỉ của bạn"
-                  className="h-[40px] border-[1.5px] border-gray-400 rounded text-center"
-                />
-              </div>
-
-              {/* birthday */}
-              <div className="flex flex-col">
-                <label htmlFor="birthday" className="mx-2">
-                  <FontAwesomeIcon icon={["fas", "birthday-cake"]} />
-                </label>
-                <input
-                  onChange={handleOnchange}
-                  type="date"
-                  name="birthday"
-                  className="h-[40px] border-[1.5px] border-gray-400 rounded text-center"
-                />
-              </div>
               {/*phone*/}
               <div className="flex flex-col">
                 <label htmlFor="" className="mx-2">
