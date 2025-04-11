@@ -3,13 +3,13 @@ import { AppDispatch, RootState } from "./features/auths/authStore";
 import { useEffect, useState } from "react";
 import { fetchAuth } from "./features/auths/authSlice";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import AdminHome from "./pages/admin/AdminHome";
-import Start from "./pages/Start";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import SellerHome from "./pages/sellers/SellerHome";
-import UserHome from "./pages/users/UserHome";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import IndexLayout from "./layouts/IndexLayout";
+import SellerLayout from "./layouts/SellerLayout";
+import UserLayout from "./layouts/UserLayout";
+import AdminLayout from "./layouts/AdminLayout";
 
 export default function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -35,7 +35,7 @@ export default function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Start />,
+      element: <IndexLayout />,
     },
     {
       path: "/login",
@@ -54,7 +54,7 @@ export default function App() {
       children: [
         {
           path: "/admin",
-          element: <AdminHome />,
+          element: <AdminLayout />,
           children: [
             { path: "manager_users", element: <>MANAGER ACCOUNT</> },
             { path: "support", element: <>Support</> },
@@ -72,7 +72,7 @@ export default function App() {
       children: [
         {
           path: "/seller",
-          element: <SellerHome />,
+          element: <SellerLayout />,
           children: [{ path: "product", element: <>Quản lý sản phẩm</> }],
         },
       ],
@@ -86,7 +86,7 @@ export default function App() {
       children: [
         {
           path: "/user",
-          element: <UserHome />,
+          element: <UserLayout />,
           children: [
             { path: "profile", element: <></> },
             { path: "cart", element: <></> },

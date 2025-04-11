@@ -1,9 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LoaddingAnimation from "../loadings/LoaddingAnimation";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../features/auths/authStore";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../features/auths/authStore";
+import { useEffect, useState } from "react";
 import { login } from "../../features/auths/authSlice";
+import { Link, useNavigate } from "react-router-dom";
 
 type Data = {
   email: string;
@@ -14,6 +15,8 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [mess, setMess] = useState<string>("");
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const { user } = useSelector((state: RootState) => state.auth);
   const [data, setData] = useState<Data>({
     email: "",
     password: "",
@@ -25,25 +28,42 @@ export default function LoginForm() {
     const target = e.target as HTMLInputElement | HTMLTextAreaElement;
     setData({ ...data, [target.name]: target.value });
   };
-
+  //check navigate with role
+  useEffect(() => {
+    if (user?.role) {
+      switch (user.role) {
+        case "user":
+          navigate("/user");
+          break;
+        case "seller":
+          navigate("/seller");
+          break;
+        case "admin":
+          navigate("/admin");
+          break;
+        default:
+          navigate("/");
+      }
+    }
+  }, [user, navigate]);
   //post form data
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // start loading
     setLoading(true);
-    // post login
-    // close loadingg
-    setTimeout(() => {
-      const result = dispatch(
+    try {
+      const result = await dispatch(
         login({ email: data.email, password: data.password })
       );
       setLoading(false);
-      if (login.fulfilled.match(result)) {
-        setMess("*Đăng nhập thành công!");
-      } else {
+
+      if (!login.fulfilled.match(result)) {
         setMess("*Thông tin bạn cung cấp không chính xác!");
       }
-    }, 1000);
+    } catch (error) {
+      setLoading(false);
+      setMess("*Đã xảy ra lỗi trong quá trình đăng nhập!");
+      console.error("Login error:", error);
+    }
   };
   return (
     <div className="w-screen h-screen bg-[url('/banner.png')] bg-cover bg-center bg-no-repeat">

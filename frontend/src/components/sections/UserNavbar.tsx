@@ -6,7 +6,7 @@ import { AppDispatch, RootState } from "../../features/auths/authStore";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auths/authSlice";
 
-export default function Navbar() {
+export default function UserNavbar() {
   const { isAuthenticate } = useSelector((state: RootState) => state.auth);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ export default function Navbar() {
         >
           <li>
             <Link
-              to="/"
+              to="/user"
               className="hover:border-b-[1.5px] hover:border-b-gray-500"
             >
               Trang chủ
@@ -48,15 +48,7 @@ export default function Navbar() {
           </li>
           <li>
             <Link
-              to="/about"
-              className="hover:border-b-[1.5px] hover:border-b-gray-500"
-            >
-              Thông tin
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/users"
+              to="/"
               className="hover:border-b-[1.5px] hover:border-b-gray-500"
             >
               Cửa hàng
@@ -64,10 +56,18 @@ export default function Navbar() {
           </li>
           <li>
             <Link
-              to="/seller"
+              to="/manager_store"
               className="hover:border-b-[1.5px] hover:border-b-gray-500"
             >
-              Trở thành seller
+              Giỏ hàng
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/profile"
+              className="hover:border-b-[1.5px] hover:border-b-gray-500"
+            >
+              Profile
             </Link>
           </li>
         </ul>
