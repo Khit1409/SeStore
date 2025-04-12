@@ -10,6 +10,9 @@ import IndexLayout from "./layouts/IndexLayout";
 import SellerLayout from "./layouts/SellerLayout";
 import UserLayout from "./layouts/UserLayout";
 import AdminLayout from "./layouts/AdminLayout";
+import ManagerStore from "./components/seller/ManagerStore";
+import ManagerProduct from "./components/seller/ManagerProduct";
+import ManagerOrder from "./components/seller/ManagerOrder";
 
 export default function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -33,6 +36,7 @@ export default function App() {
 
   // Khởi tạo router bên trong component
   const router = createBrowserRouter([
+    // Public page
     {
       path: "/",
       element: <IndexLayout />,
@@ -45,7 +49,6 @@ export default function App() {
       path: "/register",
       element: <Register />,
     },
-
     // 🛡️ ADMIN
     {
       element: (
@@ -73,7 +76,20 @@ export default function App() {
         {
           path: "/seller",
           element: <SellerLayout />,
-          children: [{ path: "product", element: <>Quản lý sản phẩm</> }],
+          children: [
+            {
+              path: "/seller/mystore",
+              element: <ManagerStore />,
+            },
+            {
+              path: "/seller/myproduct",
+              element: <ManagerProduct />,
+            },
+            {
+              path: "/seller/mystore_order",
+              element: <ManagerOrder />,
+            },
+          ],
         },
       ],
     },

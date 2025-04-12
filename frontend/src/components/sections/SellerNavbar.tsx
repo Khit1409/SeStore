@@ -22,7 +22,7 @@ export default function SellerNavbar() {
     navigate("/login");
   };
   return (
-    <section className="container-lg flex items-center justify-around pt-1 fixed z-50 w-screen">
+    <section className="container-lg flex items-center justify-around py-1 w-screen">
       {/* logo */}
       <div className="mx-2 h-[40px]">
         <img src="/logo.png" alt="logo" className="h-full w-[50px] rounded" />
@@ -32,7 +32,7 @@ export default function SellerNavbar() {
       <nav className="flex w-[90%] items-center justify-end md:justify-around">
         <ul
           className={`
-            absolute top-15
+            absolute top-12
             flex w-screen flex-col items-center py-2 gap-3 rounded  bg-gray-400 text-center text-white font-semibold right-0
             md:static md:pl-0 md:h-auto md:w-[80%] md:flex md:flex-row md:justify-center md:bg-white md:text-black
             ${showMenu ? "" : "hidden"}
@@ -48,18 +48,27 @@ export default function SellerNavbar() {
           </li>
           <li>
             <Link
-              to="/manager_products"
+              to="/seller/mystore"
+              className="hover:border-b-[1.5px] hover:border-b-gray-500"
+            >
+              Quản lý cửa hàng
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/seller/myproduct"
               className="hover:border-b-[1.5px] hover:border-b-gray-500"
             >
               Quản lý sản phẩm
             </Link>
           </li>
+
           <li>
             <Link
-              to="/manager_store"
+              to="/seller/mystore_order"
               className="hover:border-b-[1.5px] hover:border-b-gray-500"
             >
-              Quản lý của hàng
+              Quản lý đơn hàng
             </Link>
           </li>
         </ul>
@@ -86,11 +95,11 @@ export default function SellerNavbar() {
           {/* responsive toggle */}
           <button
             onClick={responsiveToggle}
-            className="h-[40px] w-[40px] md:hidden border-[1.5px] border-white rounded mr-5"
+            className="h-[40px] w-[40px] md:hidden border-[1.5px] border-gray-500 rounded mr-5"
           >
             <FontAwesomeIcon
               icon={["fas", "hamburger"]}
-              className="h-full w-full text-2xl text-white"
+              className="h-full w-full text-2xl text-gray-600"
             />
           </button>
         </div>

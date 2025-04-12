@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 
 import authRoutes from "./src/auths/auth.routes";
+import productRouter from "./src/products/product.routes";
 dotenv.config();
 
 const server = express();
@@ -25,6 +26,7 @@ server.use(cors(corsOptions));
 
 //routes
 server.use("/api/auths", authRoutes);
+server.use("/api/products", productRouter);
 // Khởi tạo server
 const port = Number(process.env.PORT) || 5000;
 

@@ -4,7 +4,7 @@ import Footer from "../components/sections/Footer";
 
 export default function IndexLayout() {
   return (
-    <div>
+    <div className="">
       <header>
         <div className="bg-[url('/banner.png')] bg-cover bg-center h-screen w-screen">
           <Navbar />

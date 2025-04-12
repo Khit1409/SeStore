@@ -49,7 +49,5 @@ cd SeStore
 
 ## 📌 To do list today
 
-1. Thiết kế Database cho Oder Cart
-2. Tạo trang cho seller quản lý doanh thu
-3. Tạo trang product detail
-4. Tạo trang thanh toán
+<!-- 1. Thiết kế Database cho Oder Product -->
+2. chạy thử và điều chỉnh controller.

@@ -1,18 +1,16 @@
-import Footer from "../components/sections/Footer";
+import { Outlet } from "react-router-dom";
 import SellerNavbar from "../components/sections/SellerNavbar";
 
 export default function SellerLayout() {
   return (
     <div>
       <header>
-        <div className="bg-[url('/banner.png')] bg-cover bg-center h-screen w-screen">
-          <SellerNavbar />
-        </div>
+        <SellerNavbar />
       </header>
-      <main></main>
-      <footer>
-        <Footer />
-      </footer>
+      <main>
+        <Outlet />
+      </main>
+      <footer></footer>
     </div>
   );
 }

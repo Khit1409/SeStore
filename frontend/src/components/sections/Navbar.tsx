@@ -33,7 +33,7 @@ export default function Navbar() {
         <ul
           className={`
             absolute top-15
-            flex w-screen flex-col items-center py-2 gap-3 rounded  bg-gray-400 text-center text-white font-semibold right-0
+            flex w-screen flex-col items-center py-2 gap-5 rounded  bg-gray-400 text-center text-white font-semibold right-0
             md:static md:pl-0 md:h-auto md:w-[80%] md:flex md:flex-row md:justify-center md:bg-white md:text-black
             ${showMenu ? "" : "hidden"}
           `}
@@ -64,10 +64,10 @@ export default function Navbar() {
           </li>
           <li>
             <Link
-              to="/seller"
+              to="/register"
               className="hover:border-b-[1.5px] hover:border-b-gray-500"
             >
-              Trở thành seller
+              Tạo cửa hàng riêng
             </Link>
           </li>
         </ul>

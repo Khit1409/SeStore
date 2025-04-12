@@ -48,7 +48,7 @@ export default function UserNavbar() {
           </li>
           <li>
             <Link
-              to="/"
+              to="/go_to_shopping"
               className="hover:border-b-[1.5px] hover:border-b-gray-500"
             >
               Cửa hàng
@@ -56,7 +56,7 @@ export default function UserNavbar() {
           </li>
           <li>
             <Link
-              to="/manager_store"
+              to="/my_cart"
               className="hover:border-b-[1.5px] hover:border-b-gray-500"
             >
               Giỏ hàng
@@ -64,7 +64,7 @@ export default function UserNavbar() {
           </li>
           <li>
             <Link
-              to="/profile"
+              to="/my_profile"
               className="hover:border-b-[1.5px] hover:border-b-gray-500"
             >
               Profile
