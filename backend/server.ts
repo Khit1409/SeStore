@@ -15,7 +15,7 @@ connectDB();
 
 //cors
 const corsOptions = {
-  origin: ["http://localhost:5173", "http://192.168.1.4:5173"], // Cho phép kết nối từ frontend
+  origin: ["http://localhost:5173", "http://192.168.1.6:5173"], // Cho phép kết nối từ frontend
   credentials: true, // Cho phép gửi cookie và xác thực (credentials)
 };
 

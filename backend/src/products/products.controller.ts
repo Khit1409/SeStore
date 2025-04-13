@@ -5,12 +5,16 @@ import { Request, Response } from "express";
 export const getProducts = async (req: Request, res: Response) => {
   try {
     const type = req.params.type;
-    const limit = parseInt(req.query.limit as string) || 10;
+    const limit = parseInt(req.query.limit as string) || 8;
     const page = parseInt(req.query.page as string) || 1;
+    const skip = (page - 1) * limit;
     if (!type) {
       return res.status(401).json({ message: "Dont know type products!" });
     }
-    const skip = (page - 1) * limit;
+    if (type === "all") {
+      const product = await Product.find().skip(skip).limit(limit);
+      return res.status(200).json({ message: "Sản phẩm:", product });
+    }
     const product = await Product.find({ typeProduct: type })
       .skip(skip)
       .limit(limit);

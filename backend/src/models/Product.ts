@@ -13,6 +13,7 @@ interface IProduct extends mongoose.Document {
   attributes: Attributes[];
   stateProduct: "new" | "used";
   typeProduct:
+      "all"
     | "fashion"
     | "vehicles"
     | "household_appliances"
@@ -45,9 +46,9 @@ const productSchema = new mongoose.Schema<IProduct>(
     },
     typeProduct: {
       type: String,
-      enum: ["fashion", "vehicles", "household_appliances", "devices", "other"],
+      enum: ["fashion", "vehicles", "household_appliances", "devices","all", "other"],
       required: true,
-      default: "other",
+      default: "all",
     },
   },
   { timestamps: true }

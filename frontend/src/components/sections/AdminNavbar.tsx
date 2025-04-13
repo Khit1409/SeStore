@@ -17,9 +17,11 @@ export default function AdminNavbar() {
     setShowMenu((prev) => !prev);
   };
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/login");
+  const handleLogout = async () => {
+    const respose = await dispatch(logout());
+    if (logout.fulfilled.match(respose)) {
+      navigate("/login");
+    }
   };
   return (
     <section className="container-lg flex items-center justify-around pt-1 fixed z-50 w-screen">

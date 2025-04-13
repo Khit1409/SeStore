@@ -22,7 +22,7 @@ export default function SellerNavbar() {
     navigate("/login");
   };
   return (
-    <section className="container-lg flex items-center justify-around py-1 w-screen">
+    <section className="border-b border-gray-500 container-lg flex items-center justify-around py-1">
       {/* logo */}
       <div className="mx-2 h-[40px]">
         <img src="/logo.png" alt="logo" className="h-full w-[50px] rounded" />

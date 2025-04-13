@@ -36,7 +36,7 @@ export default function LoginForm() {
           navigate("/user");
           break;
         case "seller":
-          navigate("/seller");
+          navigate("/seller/home");
           break;
         case "admin":
           navigate("/admin");
