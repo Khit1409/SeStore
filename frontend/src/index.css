@@ -11,3 +11,6 @@ body {
 button {
   cursor: pointer;
 }
+strong {
+  margin-inline-end: 5px;
+}

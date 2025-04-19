@@ -1,7 +1,7 @@
-import { Timestamp } from "bson";
 import mongoose from "mongoose";
 
 interface IAccount extends mongoose.Document {
+  _id: string;
   avatar: string;
   fullname: string;
   email: string;

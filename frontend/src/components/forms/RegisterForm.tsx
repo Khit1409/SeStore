@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../../features/auths/authSlice";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../features/auths/authStore";
+import { AppDispatch } from "../../features/appStore";
 
 export type RegisterData = {
   fullname: string;

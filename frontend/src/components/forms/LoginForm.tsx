@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LoaddingAnimation from "../loadings/LoaddingAnimation";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../features/auths/authStore";
 import { useEffect, useState } from "react";
 import { login } from "../../features/auths/authSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { AppDispatch, RootState } from "../../features/appStore";
 
 type Data = {
   email: string;

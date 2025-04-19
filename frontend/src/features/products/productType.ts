@@ -1,4 +1,4 @@
-type Attributes = {
+export type Attributes = {
   name: string;
   value: (string | number)[];
 };
@@ -20,10 +20,13 @@ export type ProductType = {
 
 export type ProductState = {
   product: ProductType[] | null;
+  productDetai: ProductType | null;
   error: string | null;
 };
 
 export const productInitState: ProductState = {
+  productDetai: null,
   product: null,
   error: null,
 };
+

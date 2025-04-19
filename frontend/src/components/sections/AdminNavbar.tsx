@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 // import UserTable from "../users/UserTable";
-import { AppDispatch, RootState } from "../../features/auths/authStore";
+import { AppDispatch, RootState } from "../../features/appStore";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auths/authSlice";
 

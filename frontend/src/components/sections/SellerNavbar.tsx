@@ -1,109 +1,110 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-// import UserTable from "../users/UserTable";
-import { AppDispatch, RootState } from "../../features/auths/authStore";
+import { AppDispatch, RootState } from "../../features/appStore";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auths/authSlice";
 
 export default function SellerNavbar() {
   const { isAuthenticate } = useSelector((state: RootState) => state.auth);
-  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
-  // const [show, setShow] = useState<boolean>(false);
-
   const dispatch = useDispatch<AppDispatch>();
-  const responsiveToggle = () => {
-    setShowMenu((prev) => !prev);
-  };
 
+  const toggleMenu = () => setShowMenu((prev) => !prev);
   const handleLogout = () => {
     dispatch(logout());
     navigate("/login");
   };
+
   return (
-    <section className="border-b border-gray-500 container-lg flex items-center justify-around py-1">
-      {/* logo */}
-      <div className="mx-2 h-[40px]">
-        <img src="/logo.png" alt="logo" className="h-full w-[50px] rounded" />
-      </div>
+    <section className="w-full bg-white shadow-md">
+      <div className="flex items-center justify-between px-4 py-2 max-w-[1400px] mx-auto">
+        {/* Logo */}
+        <div className="flex items-center">
+          <img src="/logo.png" alt="logo" className="h-10 w-10 rounded" />
+        </div>
 
-      {/* navigation */}
-      <nav className="flex w-[90%] items-center justify-end md:justify-around">
-        <ul
-          className={`
-            absolute top-12
-            flex w-screen flex-col items-center py-2 gap-3 rounded  bg-gray-400 text-center text-white font-semibold right-0
-            md:static md:pl-0 md:h-auto md:w-[80%] md:flex md:flex-row md:justify-center md:bg-white md:text-black
-            ${showMenu ? "" : "hidden"}
-          `}
-        >
-          <li>
-            <Link
-              to="/seller"
-              className="hover:border-b-[1.5px] hover:border-b-gray-500"
-            >
-              Trang chủ
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/seller/mystore"
-              className="hover:border-b-[1.5px] hover:border-b-gray-500"
-            >
-              Quản lý cửa hàng
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/seller/myproduct"
-              className="hover:border-b-[1.5px] hover:border-b-gray-500"
-            >
-              Quản lý sản phẩm
-            </Link>
-          </li>
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex gap-6 text-lg font-medium text-gray-800">
+          <Link to="/seller/dashboard" className="hover:text-cyan-600 transition">
+            Trang chủ
+          </Link>
+          <Link
+            to="/seller/myproduct"
+            className="hover:text-cyan-600 transition"
+          >
+            Quản lý sản phẩm
+          </Link>
+          <Link
+            to="/seller/mystore_order"
+            className="hover:text-cyan-600 transition"
+          >
+            Quản lý đơn hàng
+          </Link>
+        </nav>
 
-          <li>
-            <Link
-              to="/seller/mystore_order"
-              className="hover:border-b-[1.5px] hover:border-b-gray-500"
-            >
-              Quản lý đơn hàng
-            </Link>
-          </li>
-        </ul>
-        {/* inforuser */}
-        {/* button group */}
-        <div className="flex gap-2 mx-2 justify-around">
+        {/* Auth + Hamburger */}
+        <div className="flex items-center gap-3">
           {isAuthenticate ? (
             <button
               onClick={handleLogout}
-              type="button"
-              className="flex w-[80px] items-center justify-center rounded bg-cyan-500 text-xl font-bold text-white py-1"
+              className="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-1 rounded font-bold"
             >
               Logout
             </button>
           ) : (
             <Link
               to="/login"
-              className="flex w-[80px] items-center justify-center rounded bg-cyan-500 text-xl font-bold text-white py-1"
+              className="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-1 rounded font-bold"
             >
               Sign in
             </Link>
           )}
 
-          {/* responsive toggle */}
+          {/* Hamburger button */}
           <button
-            onClick={responsiveToggle}
-            className="h-[40px] w-[40px] md:hidden border-[1.5px] border-gray-500 rounded mr-5"
+            onClick={toggleMenu}
+            className="md:hidden border p-2 rounded text-gray-700"
           >
-            <FontAwesomeIcon
-              icon={["fas", "hamburger"]}
-              className="h-full w-full text-2xl text-gray-600"
-            />
+            <FontAwesomeIcon icon={["fas", "bars"]} className="text-xl" />
           </button>
         </div>
-      </nav>
+      </div>
+
+      {/* Mobile Nav */}
+      {showMenu && (
+        <nav className="md:hidden bg-gray-100 text-gray-800 font-medium px-6 py-4 flex flex-col gap-3">
+          <Link
+            to="/seller"
+            onClick={toggleMenu}
+            className="hover:text-cyan-600"
+          >
+            Trang chủ
+          </Link>
+          <Link
+            to="/seller/mystore"
+            onClick={toggleMenu}
+            className="hover:text-cyan-600"
+          >
+            Quản lý cửa hàng
+          </Link>
+          <Link
+            to="/seller/myproduct"
+            onClick={toggleMenu}
+            className="hover:text-cyan-600"
+          >
+            Quản lý sản phẩm
+          </Link>
+          <Link
+            to="/seller/mystore_order"
+            onClick={toggleMenu}
+            className="hover:text-cyan-600"
+          >
+            Quản lý đơn hàng
+          </Link>
+        </nav>
+      )}
     </section>
   );
 }

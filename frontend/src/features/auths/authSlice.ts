@@ -1,6 +1,6 @@
-import { createAsyncThunk} from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { DecodedUser} from "../type";
+import { DecodedUser } from "../type";
 // Environment variables
 const authUrl = import.meta.env.VITE_AUTH_API;
 
@@ -18,9 +18,7 @@ export const fetchAuth = createAsyncThunk<
     const decoded = response.data.decoded;
     // kiểm tra sự tồn tại của token
     if (!decoded) {
-      return thunkAPI.rejectWithValue(
-        "TOKEN KHÔNG CÒN TỒN TẠI HOẶC ĐÃ HẾT HẠN"
-      );
+      return thunkAPI.rejectWithValue("Token không hợp lệ hoặc đã hết hạn");
     }
     //return
     return response.data.decoded as DecodedUser;
@@ -107,5 +105,3 @@ export const register = createAsyncThunk<
     return thunkAPI.rejectWithValue("Đã xảy ra lôĩ không xác định ở register!");
   }
 });
-
-

@@ -13,14 +13,14 @@ export const checkAuth = async (req: Request, res: Response) => {
         message: "KHÔNG TÌM THẤY TOKEN (HẾT HẠN HOẶC CHƯA ĐĂNG NHẬP)",
       });
     }
-
     const decoded = jwt.verify(
       token,
       process.env.SECRET_KEY as string
     ) as JwtPayload;
 
     // Nếu decode không có accountId thì coi như không hợp lệ
-    if (!decoded || !decoded.accountId) {
+    if (!decoded || !decoded.userId) {
+      console.log("Decoded invalid:", decoded);
       return res.status(401).json({ message: "Token không hợp lệ!" });
     }
 
@@ -62,7 +62,7 @@ export const postLogin = async (req: Request, res: Response) => {
     // create token
     const token = jwt.sign(
       {
-        accountId: account._id,
+        userId: account._id.toString(),
         avatar: account.avatar,
         fullname: account.fullname,
         phone: account.phone,
@@ -83,7 +83,18 @@ export const postLogin = async (req: Request, res: Response) => {
         maxAge: 24 * 60 * 60 * 1000, // Token có thời gian sống 1 ngày
       })
       .status(200)
-      .json({ message: "ĐĂNG NHẬP THÀNH CÔNG: ", user: account });
+      .json({
+        message: "ĐĂNG NHẬP THÀNH CÔNG: ",
+        user: {
+          userId: account._id,
+          avatar: account.avatar,
+          fullname: account.fullname,
+          phone: account.phone,
+          email: account.email,
+          role: account.role,
+        },
+        token,
+      });
   } catch (error) {
     res.status(404).json({ message: "Cannot login!", error });
   }
@@ -91,15 +102,8 @@ export const postLogin = async (req: Request, res: Response) => {
 //register
 export const postRegister = async (req: Request, res: Response) => {
   try {
-    const {
-      fullname,
-      email,
-      password,
-      repassword,
-      phone,
-      avatar,
-      role,
-    } = req.body;
+    const { fullname, email, password, repassword, phone, avatar, role } =
+      req.body;
 
     const checkaccount = await Account.findOne({ email });
     if (checkaccount) {

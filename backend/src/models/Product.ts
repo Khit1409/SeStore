@@ -1,11 +1,13 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 type Attributes = {
   name: string;
   value: (string | number)[];
 };
 
-interface IProduct extends mongoose.Document {
+export interface IProduct extends mongoose.Document {
+  productId: mongoose.Types.ObjectId;
+  sellerId: mongoose.Types.ObjectId;
   name: string;
   price: number;
   image: string;
@@ -13,7 +15,7 @@ interface IProduct extends mongoose.Document {
   attributes: Attributes[];
   stateProduct: "new" | "used";
   typeProduct:
-      "all"
+    | "all"
     | "fashion"
     | "vehicles"
     | "household_appliances"
@@ -25,6 +27,7 @@ interface IProduct extends mongoose.Document {
 
 const productSchema = new mongoose.Schema<IProduct>(
   {
+    sellerId: { type: Schema.Types.ObjectId, ref: "Account" },
     name: { type: String, required: true },
     price: { type: Number, required: true },
     image: { type: String, required: true },
@@ -33,7 +36,7 @@ const productSchema = new mongoose.Schema<IProduct>(
       {
         name: { type: String, required: true },
         value: {
-          type: [mongoose.Schema.Types.Mixed], // ✅ Cho phép cả string và number
+          type: [mongoose.Schema.Types.Mixed],
           required: true,
         },
       },
@@ -46,7 +49,14 @@ const productSchema = new mongoose.Schema<IProduct>(
     },
     typeProduct: {
       type: String,
-      enum: ["fashion", "vehicles", "household_appliances", "devices","all", "other"],
+      enum: [
+        "fashion",
+        "vehicles",
+        "household_appliances",
+        "devices",
+        "all",
+        "other",
+      ],
       required: true,
       default: "all",
     },

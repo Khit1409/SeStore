@@ -1,108 +1,118 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-// import UserTable from "../users/UserTable";
-import { AppDispatch, RootState } from "../../features/auths/authStore";
+import { AppDispatch, RootState } from "../../features/appStore";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auths/authSlice";
 
 export default function UserNavbar() {
   const { isAuthenticate } = useSelector((state: RootState) => state.auth);
-  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
-  // const [show, setShow] = useState<boolean>(false);
-
   const dispatch = useDispatch<AppDispatch>();
-  const responsiveToggle = () => {
+
+  const toggleMenu = () => {
     setShowMenu((prev) => !prev);
   };
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/login");
+  const handleLogout = async () => {
+    const response = await dispatch(logout());
+    if (logout.fulfilled.match(response)) {
+      navigate("/");
+    }
   };
-  return (
-    <section className="container-lg flex items-center justify-around pt-1 fixed z-50 w-screen">
-      {/* logo */}
-      <div className="mx-2 h-[40px]">
-        <img src="/logo.png" alt="logo" className="h-full w-[50px] rounded" />
-      </div>
 
-      {/* navigation */}
-      <nav className="flex w-[90%] items-center justify-end md:justify-around">
-        <ul
-          className={`
-            absolute top-15
-            flex w-screen flex-col items-center py-2 gap-3 rounded  bg-gray-400 text-center text-white font-semibold right-0
-            md:static md:pl-0 md:h-auto md:w-[80%] md:flex md:flex-row md:justify-center md:bg-white md:text-black
-            ${showMenu ? "" : "hidden"}
-          `}
-        >
-          <li>
-            <Link
-              to="/user"
-              className="hover:border-b-[1.5px] hover:border-b-gray-500"
-            >
-              Trang chủ
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/go_to_shopping"
-              className="hover:border-b-[1.5px] hover:border-b-gray-500"
-            >
-              Cửa hàng
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/my_cart"
-              className="hover:border-b-[1.5px] hover:border-b-gray-500"
-            >
-              Giỏ hàng
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/my_profile"
-              className="hover:border-b-[1.5px] hover:border-b-gray-500"
-            >
-              Profile
-            </Link>
-          </li>
-        </ul>
-        {/* inforuser */}
-        {/* button group */}
-        <div className="flex gap-2 mx-2 justify-around">
+  return (
+    <header className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
+      <div className="flex items-center justify-between px-4 py-2 max-w-[1400px] mx-auto">
+        {/* Logo */}
+        <div className="flex items-center">
+          <img src="/logo.png" alt="logo" className="h-10 w-10 rounded" />
+        </div>
+
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex gap-6 text-lg font-medium text-gray-800">
+          <Link to="/user" className="hover:text-green-500 transition">
+            Trang chủ
+          </Link>
+          <Link
+            to="/user/go_to_shopping"
+            className="hover:text-green-500 transition"
+          >
+            Cửa hàng
+          </Link>
+          <Link to="/user/my_cart" className="hover:text-green-500 transition">
+            Giỏ hàng
+          </Link>
+          <Link
+            to="/user/my_profile"
+            className="hover:text-green-500 transition"
+          >
+            Profile
+          </Link>
+        </nav>
+
+        {/* Auth + Toggle */}
+        <div className="flex items-center gap-3">
           {isAuthenticate ? (
             <button
               onClick={handleLogout}
-              type="button"
-              className="flex w-[80px] items-center justify-center rounded bg-cyan-500 text-xl font-bold text-white py-1"
+              className="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-1 rounded font-bold"
             >
               Logout
             </button>
           ) : (
             <Link
               to="/login"
-              className="flex w-[80px] items-center justify-center rounded bg-cyan-500 text-xl font-bold text-white py-1"
+              className="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-1 rounded font-bold"
             >
               Sign in
             </Link>
           )}
 
-          {/* responsive toggle */}
+          {/* Hamburger for mobile */}
           <button
-            onClick={responsiveToggle}
-            className="h-[40px] w-[40px] md:hidden border-[1.5px] border-white rounded mr-5"
+            onClick={toggleMenu}
+            className="md:hidden border p-2 rounded text-gray-700"
           >
-            <FontAwesomeIcon
-              icon={["fas", "hamburger"]}
-              className="h-full w-full text-2xl text-white"
-            />
+            <FontAwesomeIcon icon={["fas", "bars"]} className="text-xl" />
           </button>
         </div>
-      </nav>
-    </section>
+      </div>
+
+      {/* Mobile Nav */}
+      {showMenu && (
+        <nav className="md:hidden bg-gray-100 text-gray-800 font-medium px-6 py-4 flex flex-col gap-3">
+          <Link
+            to="/user"
+            onClick={toggleMenu}
+            className="hover:text-green-500"
+          >
+            Trang chủ
+          </Link>
+          <Link
+            to="/user/go_to_shopping"
+            onClick={toggleMenu}
+            className="hover:text-green-500"
+          >
+            Cửa hàng
+          </Link>
+          <Link
+            to="/user/my_cart"
+            onClick={toggleMenu}
+            className="hover:text-green-500"
+          >
+            Giỏ hàng
+          </Link>
+          <Link
+            to="/user/my_profile"
+            onClick={toggleMenu}
+            className="hover:text-green-500"
+          >
+            Profile
+          </Link>
+        </nav>
+      )}
+    </header>
   );
 }

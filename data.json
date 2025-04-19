@@ -2,241 +2,131 @@
   {
     "name": "Áo thun nam basic",
     "price": 150000,
-    "image": "/images/tshirt1.jpg",
+    "image": "https://th.bing.com/th/id/OIP.RaoNOjhR-10yEYwpD-VlMAHaEK?rs=1&pid=ImgDetMain",
     "brands": "Coolmate",
     "attributes": [
       { "name": "Size", "value": ["M", "L", "XL"] },
       { "name": "Màu sắc", "value": ["Đen", "Trắng"] }
     ],
     "stateProduct": "new",
-    "typeProduct": "fashion"
+    "typeProduct": "fashion",
+    "sellerId": { "$oid": "67f63ef04594a144aac4c306" }
   },
   {
     "name": "Xe đạp thể thao",
     "price": 3200000,
-    "image": "/images/bike.jpg",
+    "image": "https://th.bing.com/th/id/OIP.RaoNOjhR-10yEYwpD-VlMAHaEK?rs=1&pid=ImgDetMain",
     "brands": "Martin 107",
     "attributes": [
       { "name": "Số bánh răng", "value": [18] },
       { "name": "Màu sắc", "value": ["Xanh dương"] }
     ],
     "stateProduct": "used",
-    "typeProduct": "vehicles"
+    "typeProduct": "vehicles",
+    "sellerId": { "$oid": "67f63ef04594a144aac4c306" }
   },
   {
     "name": "Tủ lạnh LG Inverter",
     "price": 8500000,
-    "image": "/images/fridge.jpg",
+    "image": "https://th.bing.com/th/id/OIP.RaoNOjhR-10yEYwpD-VlMAHaEK?rs=1&pid=ImgDetMain",
     "brands": "LG",
     "attributes": [
       { "name": "Dung tích", "value": [300] },
       { "name": "Loại", "value": ["2 cánh"] }
     ],
     "stateProduct": "new",
-    "typeProduct": "household_appliances"
+    "typeProduct": "household_appliances",
+    "sellerId": { "$oid": "67f63ef04594a144aac4c306" }
   },
   {
     "name": "Điện thoại Samsung Galaxy S21",
     "price": 9900000,
-    "image": "/images/galaxy_s21.jpg",
+    "image": "https://th.bing.com/th/id/OIP.RaoNOjhR-10yEYwpD-VlMAHaEK?rs=1&pid=ImgDetMain",
     "brands": "Samsung",
     "attributes": [
       { "name": "RAM", "value": [8] },
       { "name": "ROM", "value": [128] }
     ],
     "stateProduct": "used",
-    "typeProduct": "devices"
+    "typeProduct": "devices",
+    "sellerId": { "$oid": "67f63ef04594a144aac4c306" }
   },
   {
     "name": "Laptop ASUS Vivobook",
     "price": 12900000,
-    "image": "/images/laptop.jpg",
+    "image": "https://th.bing.com/th/id/OIP.RaoNOjhR-10yEYwpD-VlMAHaEK?rs=1&pid=ImgDetMain",
     "brands": "ASUS",
     "attributes": [
       { "name": "RAM", "value": [16] },
       { "name": "CPU", "value": ["i5"] }
     ],
     "stateProduct": "new",
-    "typeProduct": "devices"
+    "typeProduct": "devices",
+    "sellerId": { "$oid": "67f63ef04594a144aac4c306" }
   },
   {
     "name": "Bàn làm việc gỗ sồi",
     "price": 2500000,
-    "image": "/images/desk.jpg",
+    "image": "https://th.bing.com/th/id/OIP.RaoNOjhR-10yEYwpD-VlMAHaEK?rs=1&pid=ImgDetMain",
     "brands": "No Brand",
     "attributes": [
       { "name": "Chất liệu", "value": ["Gỗ sồi"] },
       { "name": "Kích thước", "value": ["120x60cm"] }
     ],
     "stateProduct": "new",
-    "typeProduct": "other"
+    "typeProduct": "other",
+    "sellerId": { "$oid": "67f63ef04594a144aac4c306" }
   },
   {
     "name": "Giày sneaker nam",
     "price": 790000,
-    "image": "/images/sneaker.jpg",
+    "image": "https://th.bing.com/th/id/OIP.RaoNOjhR-10yEYwpD-VlMAHaEK?rs=1&pid=ImgDetMain",
     "brands": "Bitis Hunter",
     "attributes": [
       { "name": "Size", "value": [39, 40, 41] },
       { "name": "Màu sắc", "value": ["Trắng", "Đen"] }
     ],
     "stateProduct": "new",
-    "typeProduct": "fashion"
+    "typeProduct": "fashion",
+    "sellerId": { "$oid": "67f63ef04594a144aac4c306" }
   },
   {
     "name": "Tai nghe không dây",
     "price": 1250000,
-    "image": "/images/earbuds.jpg",
+    "image": "https://th.bing.com/th/id/OIP.RaoNOjhR-10yEYwpD-VlMAHaEK?rs=1&pid=ImgDetMain",
     "brands": "Sony",
     "attributes": [
       { "name": "Bluetooth", "value": ["5.2"] },
       { "name": "Chống nước", "value": ["IPX4"] }
     ],
     "stateProduct": "new",
-    "typeProduct": "devices"
+    "typeProduct": "devices",
+    "sellerId": { "$oid": "67f63ef04594a144aac4c306" }
   },
   {
     "name": "Máy xay sinh tố",
     "price": 490000,
-    "image": "/images/blender.jpg",
+    "image": "https://th.bing.com/th/id/OIP.RaoNOjhR-10yEYwpD-VlMAHaEK?rs=1&pid=ImgDetMain",
     "brands": "Panasonic",
     "attributes": [
       { "name": "Công suất", "value": [300] },
       { "name": "Dung tích", "value": [1.5] }
     ],
     "stateProduct": "new",
-    "typeProduct": "household_appliances"
+    "typeProduct": "household_appliances",
+    "sellerId": { "$oid": "67f63ef04594a144aac4c306" }
   },
   {
     "name": "Áo khoác dù nam",
     "price": 350000,
-    "image": "/images/jacket.jpg",
+    "image": "https://th.bing.com/th/id/OIP.RaoNOjhR-10yEYwpD-VlMAHaEK?rs=1&pid=ImgDetMain",
     "brands": "Coolmate",
     "attributes": [
       { "name": "Size", "value": ["M", "L", "XL"] },
       { "name": "Chống nước", "value": ["Có"] }
     ],
     "stateProduct": "new",
-    "typeProduct": "fashion"
-  },
-  {
-    "name": "Tivi Samsung 43 inch",
-    "price": 7490000,
-    "image": "/images/tv.jpg",
-    "brands": "Samsung",
-    "attributes": [
-      { "name": "Kích thước", "value": [43] },
-      { "name": "Loại", "value": ["Smart TV"] }
-    ],
-    "stateProduct": "new",
-    "typeProduct": "household_appliances"
-  },
-  {
-    "name": "Xe máy điện VinFast",
-    "price": 18500000,
-    "image": "/images/vinfast.jpg",
-    "brands": "VinFast",
-    "attributes": [
-      { "name": "Tốc độ tối đa", "value": [70] },
-      { "name": "Quãng đường", "value": [90] }
-    ],
-    "stateProduct": "new",
-    "typeProduct": "vehicles"
-  },
-  {
-    "name": "Loa bluetooth mini",
-    "price": 450000,
-    "image": "/images/speaker.jpg",
-    "brands": "JBL",
-    "attributes": [
-      { "name": "Công suất", "value": [10] },
-      { "name": "Bluetooth", "value": ["5.0"] }
-    ],
-    "stateProduct": "new",
-    "typeProduct": "devices"
-  },
-  {
-    "name": "Máy giặt LG 9kg",
-    "price": 6890000,
-    "image": "/images/washing_machine.jpg",
-    "brands": "LG",
-    "attributes": [
-      { "name": "Khối lượng giặt", "value": [9] },
-      { "name": "Loại", "value": ["Cửa trước"] }
-    ],
-    "stateProduct": "new",
-    "typeProduct": "household_appliances"
-  },
-  {
-    "name": "Bàn học sinh thông minh",
-    "price": 1600000,
-    "image": "/images/kids_table.jpg",
-    "brands": "No Brand",
-    "attributes": [
-      { "name": "Chất liệu", "value": ["Gỗ", "Nhựa"] },
-      { "name": "Màu sắc", "value": ["Hồng", "Xanh"] }
-    ],
-    "stateProduct": "new",
-    "typeProduct": "other"
-  },
-  {
-    "name": "Quạt điện Toshiba",
-    "price": 590000,
-    "image": "/images/fan.jpg",
-    "brands": "Toshiba",
-    "attributes": [
-      { "name": "Công suất", "value": [45] },
-      { "name": "Chế độ", "value": ["3 mức gió"] }
-    ],
-    "stateProduct": "new",
-    "typeProduct": "household_appliances"
-  },
-  {
-    "name": "Đồng hồ đeo tay nam",
-    "price": 1100000,
-    "image": "/images/watch.jpg",
-    "brands": "Casio",
-    "attributes": [
-      { "name": "Chất liệu dây", "value": ["Thép không gỉ"] },
-      { "name": "Chống nước", "value": ["5ATM"] }
-    ],
-    "stateProduct": "new",
-    "typeProduct": "fashion"
-  },
-  {
-    "name": "Máy hút bụi cầm tay",
-    "price": 1250000,
-    "image": "/images/vacuum.jpg",
-    "brands": "Philips",
-    "attributes": [
-      { "name": "Dung tích chứa bụi", "value": [0.5] },
-      { "name": "Công suất", "value": [600] }
-    ],
-    "stateProduct": "new",
-    "typeProduct": "household_appliances"
-  },
-  {
-    "name": "Balo laptop nam",
-    "price": 590000,
-    "image": "/images/backpack.jpg",
-    "brands": "Tigernu",
-    "attributes": [
-      { "name": "Kích thước", "value": ["15.6 inch"] },
-      { "name": "Chống nước", "value": ["Có"] }
-    ],
-    "stateProduct": "new",
-    "typeProduct": "fashion"
-  },
-  {
-    "name": "Máy chơi game cầm tay",
-    "price": 2200000,
-    "image": "/images/game_console.jpg",
-    "brands": "Nintendo",
-    "attributes": [
-      { "name": "Dung lượng pin", "value": [4300] },
-      { "name": "Màn hình", "value": ["OLED"] }
-    ],
-    "stateProduct": "new",
-    "typeProduct": "devices"
+    "typeProduct": "fashion",
+    "sellerId": { "$oid": "67f63ef04594a144aac4c306" }
   }
 ]

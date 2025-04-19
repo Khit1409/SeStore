@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { productInitState } from "../products/productType";
-import { getProduct } from "./productsSlice";
+import {
+  deleteProduct,
+  getProductForDetail,
+  getProductForSeller,
+  getProductForUser,
+} from "./productsSlice";
 const productsSlice = createSlice({
   name: "product",
   initialState: productInitState,
@@ -11,17 +16,51 @@ const productsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getProduct.pending, (state) => {
+      .addCase(getProductForSeller.pending, (state) => {
         state.error = null;
         state.product = null;
       })
-      .addCase(getProduct.fulfilled, (state, action) => {
+      .addCase(getProductForSeller.fulfilled, (state, action) => {
         state.product = action.payload;
       })
-      .addCase(getProduct.rejected, (state, action) => {
+      .addCase(getProductForSeller.rejected, (state, action) => {
         state.product = null;
         state.error = action.payload ?? "Lỗi lấy sản phẩm";
+      })
+      .addCase(getProductForUser.pending, (state) => {
+        state.error = null;
+        state.product = null;
+      })
+      .addCase(getProductForUser.fulfilled, (state, action) => {
+        state.product = action.payload;
+      })
+      .addCase(getProductForUser.rejected, (state, action) => {
+        state.product = null;
+        state.error = action.payload ?? "Lỗi lấy sản phẩm khách hàng";
+      })
+      .addCase(getProductForDetail.pending, (state) => {
+        state.productDetai = null;
+        state.error = null;
+      })
+      .addCase(getProductForDetail.fulfilled, (state, action) => {
+        state.productDetai = action.payload;
+      })
+      .addCase(getProductForDetail.rejected, (state, action) => {
+        state.error = action.payload ?? "lỗi lấy sản phẩm về order";
+        state.productDetai = null;
+      })
+      .addCase(deleteProduct.pending, (state) => {
+        state.error = null;
+        state.product = null;
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.product = action.payload;
+      })
+      .addCase(deleteProduct.rejected, (state, action) => {
+        state.product = null;
+        state.error = action.payload ?? "Lỗi xóa ";
       });
+      
   },
 });
 

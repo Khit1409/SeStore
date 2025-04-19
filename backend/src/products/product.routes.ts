@@ -1,28 +1,31 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import {
   createProducts,
-  // deleteProducts,
-  getProducts,
-  // updateProducts,
+  deleteProducts,
+  getProductForDetail,
+  getProductForSeller,
+  getProductForUser,
 } from "./products.controller";
 
 const productRouter = express.Router();
 
 //HTTP method
-productRouter.get("/:type", async (req, res) => {
-  await getProducts(req, res);
+productRouter.get("/:sellerId", async (req, res) => {
+  await getProductForSeller(req, res);
 });
-productRouter.post(
-  "/:type",
-  async (req, res) => {await createProducts(req, res)}
-);
-// productRouter.put(
-//   "/:productId",
-//   async (req, res) => {await updateProducts(req, res)}
-// );
-// productRouter.delete(
-//   "/:productId",
-//   async (req, res) => {await deleteProducts(req, res)}
-// );
+
+productRouter.get("/detail/:productId", async (req, res) => {
+  await getProductForDetail(req, res);
+});
+
+productRouter.get("/", async (req, res) => {
+  await getProductForUser(req, res);
+});
+productRouter.post("/delete", async (req, res) => {
+  await deleteProducts(req, res);
+});
+productRouter.post("/:type", async (req, res) => {
+  await createProducts(req, res);
+});
 
 export default productRouter;

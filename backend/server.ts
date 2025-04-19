@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 
 import authRoutes from "./src/auths/auth.routes";
 import productRouter from "./src/products/product.routes";
+import cartRouter from "./src/carts/cart.routes";
+import orderRouter from "./src/orders/order.routes";
 dotenv.config();
 
 const server = express();
@@ -27,9 +29,12 @@ server.use(cors(corsOptions));
 //routes
 server.use("/api/auths", authRoutes);
 server.use("/api/products", productRouter);
+server.use("/api/carts", cartRouter);
+server.use("/api/orders", orderRouter);
 // Khởi tạo server
 const port = Number(process.env.PORT) || 5000;
 
 server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+

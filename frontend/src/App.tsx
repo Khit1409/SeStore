@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "./features/auths/authStore";
+import { AppDispatch, RootState } from "./features/appStore";
 import { useEffect, useState } from "react";
 import { fetchAuth } from "./features/auths/authSlice";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -10,9 +10,13 @@ import IndexLayout from "./layouts/IndexLayout";
 import SellerLayout from "./layouts/SellerLayout";
 import UserLayout from "./layouts/UserLayout";
 import AdminLayout from "./layouts/AdminLayout";
-import ManagerStore from "./components/seller/ManagerStore";
 import ManagerProduct from "./components/seller/ManagerProduct";
 import ManagerOrder from "./components/seller/ManagerOrder";
+import Shop from "./pages/users/Shop";
+import UserOrder from "./components/users/UserOrder";
+import Cart from "./pages/users/Cart";
+import SellerDashboard from "./components/seller/SellerDashboard";
+import Dashboard from "./pages/users/Dashboard";
 
 export default function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -59,9 +63,26 @@ export default function App() {
           path: "/admin",
           element: <AdminLayout />,
           children: [
-            { path: "manager_users", element: <>MANAGER ACCOUNT</> },
-            { path: "support", element: <>Support</> },
-            { path: "mananger_sellers", element: <>Seller</> },
+            {
+              path: "/admin/dashboard",
+              element: <>MANAGER ACCOUNT</>,
+            },
+            {
+              path: "/admin/manager_users",
+              element: <>MANAGER ACCOUNT</>,
+            },
+            {
+              path: "/admin/manager_users",
+              element: <>MANAGER ACCOUNT</>,
+            },
+            {
+              path: "/admin/support",
+              element: <>Support</>,
+            },
+            {
+              path: "/admin/mananger_sellers",
+              element: <>Seller</>,
+            },
           ],
         },
       ],
@@ -78,8 +99,8 @@ export default function App() {
           element: <SellerLayout />,
           children: [
             {
-              path: "/seller/mystore",
-              element: <ManagerStore />,
+              path: "/seller/dashboard",
+              element: <SellerDashboard />,
             },
             {
               path: "/seller/myproduct",
@@ -104,9 +125,10 @@ export default function App() {
           path: "/user",
           element: <UserLayout />,
           children: [
-            { path: "profile", element: <></> },
-            { path: "cart", element: <></> },
-            { path: "shop", element: <>Shop</> },
+            { path: "/user/dashboard", element: <Dashboard /> },
+            { path: "/user/buy/:productId", element: <UserOrder /> },
+            { path: "/user/go_to_shopping", element: <Shop /> },
+            { path: "/user/my_cart", element: <Cart /> },
           ],
         },
       ],

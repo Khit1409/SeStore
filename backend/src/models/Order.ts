@@ -1,8 +1,14 @@
 import mongoose, { Schema } from "mongoose";
 
 interface IOrder extends mongoose.Document {
-  userId: mongoose.Types.ObjectId;
-  productId: mongoose.Types.ObjectId;
+  users: mongoose.Types.ObjectId;
+  productItems: [
+    {
+      productId: mongoose.Types.ObjectId;
+      quantity: number;
+      attributes: [];
+    }
+  ];
   address: string;
   totalProduct: number;
   createAt: Date;
@@ -11,8 +17,19 @@ interface IOrder extends mongoose.Document {
 
 const orderSchema = new mongoose.Schema<IOrder>(
   {
-    userId: { type: Schema.Types.ObjectId, ref: "Account" },
-    productId: { type: Schema.Types.ObjectId, ref: "Product" },
+    users: { type: Schema.Types.ObjectId, ref: "Account" },
+    productItems: [
+      {
+        productId: { type: Schema.Types.ObjectId, ref: "Product" },
+        quantity: { type: Number },
+        attributes: [
+          {
+            name: { type: String },
+            value: [{ type: String }],
+          },
+        ],
+      },
+    ],
     address: { type: String, required: true },
     totalProduct: { type: Number, required: true },
   },

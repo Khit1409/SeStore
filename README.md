@@ -50,4 +50,8 @@ cd SeStore
 ## 📌 To do list today
 
 <!-- 1. Thiết kế Database cho Oder Product -->
-2. chạy thử và điều chỉnh controller.
+<!-- 2. chạy thử và điều chỉnh controller. -->
+
+3. chỉnh lại các chức năng thêm sửa xóa lọc sản phẩm.
+4. sửa tên các file có cùng nhiệm vụ
+5. Tạo trang cho admin
