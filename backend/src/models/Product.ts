@@ -13,14 +13,8 @@ export interface IProduct extends mongoose.Document {
   image: string;
   brands: string;
   attributes: Attributes[];
-  stateProduct: "new" | "used";
-  typeProduct:
-    | "all"
-    | "fashion"
-    | "vehicles"
-    | "household_appliances"
-    | "devices"
-    | "other";
+  stateProduct: string;
+  typeProduct: string;
   createdAt: Date;
   updatedAt: Date;
 }

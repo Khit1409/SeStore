@@ -1,6 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { initialState } from "../type";
-import { fetchAuth, login, logout, register } from "./authSlice";
+import {
+  fetchAuth,
+  getAccountForAdmin,
+  login,
+  logout,
+  register,
+} from "./authSlice";
 
 const authSlice = createSlice({
   name: "auth",
@@ -55,6 +61,18 @@ const authSlice = createSlice({
         state.user = null;
         state.error = action.payload ?? "Không thể xác thực";
         state.isAuthenticate = false;
+      })
+      //get account
+      .addCase(getAccountForAdmin.pending, (state) => {
+        state.error = null;
+        state.account = null;
+      })
+      .addCase(getAccountForAdmin.fulfilled, (state, action) => {
+        state.account= action.payload;
+      })
+      .addCase(getAccountForAdmin.rejected, (state, action) => {
+        state.error = action.payload ?? "Lỗi lấy danh sách acc";
+        state.account = null;
       });
   },
 });

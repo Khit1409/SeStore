@@ -1,5 +1,9 @@
 import express from "express";
-import { getCart, getOrdersBySeller } from "./cart.controller";
+import {
+  getCart,
+  getCartForDetail,
+  getOrdersBySeller,
+} from "./cart.controller";
 
 const cartRouter = express.Router();
 
@@ -9,5 +13,11 @@ cartRouter.get("/get_cart/:userId", async (req, res) => {
 });
 cartRouter.get("/seller/:sellerId", async (req, res) => {
   await getOrdersBySeller(req, res);
+});
+cartRouter.get("/payment/:cart_id", async (req, res) => {
+  await getCartForDetail(req, res);
+});
+cartRouter.post("/cancel/:cart_id", async (req, res) => {
+  // await getCart(req, res);
 });
 export default cartRouter;

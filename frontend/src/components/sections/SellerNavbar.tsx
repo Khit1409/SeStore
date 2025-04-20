@@ -76,7 +76,7 @@ export default function SellerNavbar() {
       {showMenu && (
         <nav className="md:hidden bg-gray-100 text-gray-800 font-medium px-6 py-4 flex flex-col gap-3">
           <Link
-            to="/seller"
+            to="/seller/dashboard"
             onClick={toggleMenu}
             className="hover:text-cyan-600"
           >

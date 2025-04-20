@@ -6,24 +6,30 @@ import { Request, Response } from "express";
 export const getProductForSeller = async (req: Request, res: Response) => {
   try {
     const sellerIdQuery = req.params.sellerId as string;
-    if (!mongoose.Types.ObjectId.isValid(sellerIdQuery)) {
-      return res.status(400).json({ message: "Invalid sellerId" });
-    }
-    const sellerId = new mongoose.Types.ObjectId(sellerIdQuery);
-    // Chuyển sellerId thành ObjectId
-    const type = req.query.type as string;
+    const search = req.query.search as string;
+    const typeProduct = req.query.typeProduct as string;
     const limit = parseInt(req.query.limit as string) || 8;
     const page = parseInt(req.query.page as string) || 1;
     const skip = (page - 1) * limit;
 
+    const sellerId = new mongoose.Types.ObjectId(sellerIdQuery);
+    if (!mongoose.Types.ObjectId.isValid(sellerIdQuery)) {
+      return res.status(400).json({ message: "Invalid sellerId" });
+    }
+
     const filter: any = {};
-    if (type && type !== "") {
-      filter.type = type;
+    if (typeProduct && typeProduct !== "") {
+      filter.typeProduct = typeProduct;
     }
     if (sellerId) {
       filter.sellerId = sellerId;
     }
-    const products = await Product.find(filter).skip(skip).limit(limit);
+    const products = await Product.find({
+      name: { $regex: search, $options: "i" },
+      ...filter,
+    })
+      .skip(skip)
+      .limit(limit);
 
     if (products.length === 0) {
       return res.status(404).json({ message: "Không tìm thấy sản phẩm" });
@@ -41,6 +47,7 @@ export const getProductForSeller = async (req: Request, res: Response) => {
 export const getProductForUser = async (req: Request, res: Response) => {
   try {
     const type = req.query.type as string;
+    const search = req.query.search as string;
     const stateProduct = req.query.stateProduct as string;
     const limit = parseInt(req.query.limit as string);
     const page = parseInt(req.query.page as string);
@@ -62,7 +69,12 @@ export const getProductForUser = async (req: Request, res: Response) => {
       }
     }
 
-    const products = await Product.find(filter).skip(skip).limit(limit);
+    const products = await Product.find({
+      name: { $regex: search, $options: "i" },
+      ...filter,
+    })
+      .skip(skip)
+      .limit(limit);
 
     if (products.length === 0) {
       return res.status(404).json({ message: "Không tìm thấy sản phẩm" });
@@ -135,9 +147,7 @@ export const createProducts = async (req: Request, res: Response) => {
 export const deleteProducts = async (req: Request, res: Response) => {
   try {
     const sellerId = new mongoose.Types.ObjectId(req.body.sellerId as string);
-    const productId = new mongoose.Types.ObjectId(
-      req.body.productId as string
-    );
+    const productId = new mongoose.Types.ObjectId(req.body.productId as string);
     const deletedProduct = await Product.findByIdAndDelete({
       _id: productId,
       sellerId: sellerId,

@@ -7,7 +7,7 @@ interface IAccount extends mongoose.Document {
   email: string;
   password: string;
   phone: string;
-  role: "user" | "seller" | "admin";
+  role: string;
   createAt: Date;
   updateAt: Date;
 }

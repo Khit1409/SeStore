@@ -21,7 +21,7 @@ export const fetchAuth = createAsyncThunk<
       return thunkAPI.rejectWithValue("Token không hợp lệ hoặc đã hết hạn");
     }
     //return
-    return response.data.decoded as DecodedUser;
+    return response.data.decoded;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       return thunkAPI.rejectWithValue(
@@ -44,7 +44,7 @@ export const login = createAsyncThunk<
     });
 
     // server trả về: { user, token }
-    const res = response.data.user as DecodedUser;
+    const res = response.data.user;
     if (res) {
       return res;
     } else {
@@ -95,7 +95,7 @@ export const register = createAsyncThunk<
     const response = await axios.post(`${authUrl}/register`, formData, {
       withCredentials: true,
     });
-    return response.data.user as DecodedUser;
+    return response.data.user;
   } catch (error) {
     if (error instanceof axios.AxiosError) {
       return thunkAPI.rejectWithValue(
@@ -103,5 +103,25 @@ export const register = createAsyncThunk<
       );
     }
     return thunkAPI.rejectWithValue("Đã xảy ra lôĩ không xác định ở register!");
+  }
+});
+
+//lấy danh sách tài khoản
+
+export const getAccountForAdmin = createAsyncThunk<
+  DecodedUser[],
+  null,
+  { rejectValue: string }
+>("auth/getAcount", async (_, thunkAPI) => {
+  try {
+    const response = await axios.get(`${authUrl}/admin_get`);
+    if (response.data) {
+      return response.data.list_acc;
+    }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return thunkAPI.rejectWithValue("Lỗi get !");
+    }
+    return thunkAPI.rejectWithValue("Không xác định lỗi!");
   }
 });

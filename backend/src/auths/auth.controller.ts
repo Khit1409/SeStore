@@ -37,6 +37,19 @@ export const checkAuth = async (req: Request, res: Response) => {
       .json({ message: "Không thể check phiên đăng nhập", error });
   }
 };
+export const getAccountForAdmin = async (req: Request, res: Response) => {
+  try {
+    const list_acc = await Account.find();
+    if (!list_acc) {
+      return res.status(404).json({ message: "Can not find acc" });
+    }
+    return res.status(200).json({ message: "", list_acc });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Không thể check phiên đăng nhập", error });
+  }
+};
 
 //
 //login

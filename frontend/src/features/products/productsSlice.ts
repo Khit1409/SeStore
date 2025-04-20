@@ -6,26 +6,35 @@ const productUrl = import.meta.env.VITE_PRODUCT_API;
 
 export const getProductForSeller = createAsyncThunk<
   ProductType[],
-  { sellerId: string; typeProduct: string; limit: 8; page: number },
+  {
+    sellerId: string;
+    typeProduct: string;
+    limit: 8;
+    page: number;
+    search: string;
+  },
   { rejectValue: string }
->("product/get", async ({ sellerId, limit, page, typeProduct }, thunkAPI) => {
-  try {
-    const response = await axios.get(
-      `${productUrl}/${sellerId}?type=${typeProduct}&limit=${limit}&page=${page}`
-    );
-    if (response.data.product) {
-      return response.data.product;
-    }
-    return thunkAPI.rejectWithValue("Không tìm thấy sản phẩm");
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data.message || "Lỗi server"
+>(
+  "product/get",
+  async ({ sellerId, limit, page, typeProduct, search }, thunkAPI) => {
+    try {
+      const response = await axios.get(
+        `${productUrl}/${sellerId}?typeProduct=${typeProduct}&limit=${limit}&page=${page}&search=${search}`
       );
+      if (response.data.product) {
+        return response.data.product;
+      }
+      return thunkAPI.rejectWithValue("Không tìm thấy sản phẩm");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return thunkAPI.rejectWithValue(
+          error.response?.data.message || "Lỗi server"
+        );
+      }
+      return thunkAPI.rejectWithValue("Đã xảy ra lỗi không xác định");
     }
-    return thunkAPI.rejectWithValue("Đã xảy ra lỗi không xác định");
   }
-});
+);
 //get product for user
 export const getProductForUser = createAsyncThunk<
   ProductType[],
@@ -35,14 +44,18 @@ export const getProductForUser = createAsyncThunk<
     stateProduct: string;
     limit: number;
     page: number;
+    search: string;
   },
   { rejectValue: string }
 >(
   "product/getUser",
-  async ({ typeProduct, price, stateProduct, limit, page }, thunkAPI) => {
+  async (
+    { typeProduct, price, stateProduct, limit, page, search },
+    thunkAPI
+  ) => {
     try {
       const response = await axios.get(
-        `${productUrl}?type=${typeProduct}&price=${price}&stateProduct=${stateProduct}&limit=${limit}&page=${page}`
+        `${productUrl}?type=${typeProduct}&price=${price}&stateProduct=${stateProduct}&limit=${limit}&page=${page}&search=${search}`
       );
       if (response.data.product) {
         return response.data.product;
@@ -80,7 +93,7 @@ export const getProductForDetail = createAsyncThunk<
 //delete product
 
 export const deleteProduct = createAsyncThunk<
-  ProductType[], // <-- Chỗ này sửa từ null thành string
+  ProductType[],
   { productId: string; sellerId: string },
   { rejectValue: string }
 >("product/delete", async ({ productId, sellerId }, thunkAPI) => {

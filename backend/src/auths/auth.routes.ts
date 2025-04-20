@@ -1,6 +1,7 @@
 import express from "express";
 import {
   checkAuth,
+  getAccountForAdmin,
   postLogin,
   postLogout,
   postRegister,
@@ -10,6 +11,9 @@ const authRoutes = express.Router();
 //check auth routes
 authRoutes.get("/check", async (req, res) => {
   await checkAuth(req, res);
+});
+authRoutes.get("/admin_get", async (req, res) => {
+  await getAccountForAdmin(req, res);
 });
 
 //login routes

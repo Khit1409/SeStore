@@ -9,12 +9,14 @@ export type DecodedUser = {
 
 export type AuthState = {
   user: DecodedUser | null;
+  account: DecodedUser[] | null;
   isAuthenticate: boolean;
   error: string | null;
 };
 
 export const initialState: AuthState = {
   user: null,
+  account: null,
   isAuthenticate: false,
   error: null,
 };

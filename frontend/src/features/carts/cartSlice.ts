@@ -10,6 +10,7 @@ export const addToCart = createAsyncThunk<
   Cart,
   {
     productId: string;
+    methodPay: string;
     attributes: Attributes[];
     quantity: number;
     address: string;
@@ -18,12 +19,16 @@ export const addToCart = createAsyncThunk<
   { rejectValue: string }
 >(
   "cart/addtocart",
-  async ({ productId, attributes, quantity, address, userId }, thunkAPI) => {
+  async (
+    { productId, attributes, quantity, address, userId, methodPay },
+    thunkAPI
+  ) => {
     try {
       const response = await axios.post(`${orderUrl}/addtocart/${productId}`, {
         userId,
         address,
         attributes,
+        methodPay,
         quantity,
       });
       if (response.data.newCart) {
@@ -37,9 +42,7 @@ export const addToCart = createAsyncThunk<
     }
   }
 );
-
 //get cart
-
 export const getCart = createAsyncThunk<
   Cart[],
   { userId: string },
@@ -82,3 +85,40 @@ export const getCartForSeller = createAsyncThunk<
     }
   }
 );
+
+//fetch cart for place orer
+export const getCartForDetail = createAsyncThunk<
+  Cart,
+  { cart_id: string },
+  { rejectValue: string }
+>("cart/getPay", async ({ cart_id }, thunkAPI) => {
+  try {
+    const carts = await axios.get(`${cartUrl}/payment/${cart_id}`);
+    if (carts.data) {
+      return carts.data.cart_detail;
+    }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return thunkAPI.rejectWithValue("can not get this cart!");
+    }
+    return thunkAPI.rejectWithValue("Can not know this error!");
+  }
+});
+//cancel cart
+export const cancelCart = createAsyncThunk<
+  Cart[],
+  { cart_id: string },
+  { rejectValue: string }
+>("cart/cancel", async ({ cart_id }, thunkAPI) => {
+  try {
+    const new_cart = await axios.post(`${cartUrl}/cancel/${cart_id}`);
+    if (new_cart.data) {
+      return new_cart.data.carts;
+    }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return thunkAPI.rejectWithValue("Can not cancel this cart!");
+    }
+    return thunkAPI.rejectWithValue("Cancel successfully!");
+  }
+});

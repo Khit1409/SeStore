@@ -48,10 +48,7 @@ export default function ManagerOrder() {
 
   return (
     <div className="py-8 px-4">
-      {/* Header */}
       <h1 className="text-4xl font-bold text-center mb-8">Quản lý đơn hàng</h1>
-
-      {/* Filter */}
       <section className="flex flex-col md:flex-row items-center gap-4 mb-6 max-w-5xl mx-auto">
         <select
           onChange={handleChangeType}
@@ -65,7 +62,6 @@ export default function ManagerOrder() {
           <option value="devices">Thiết bị</option>
           <option value="other">Khác</option>
         </select>
-
         <form className="relative w-full md:w-1/2">
           <input
             type="text"
@@ -106,38 +102,38 @@ export default function ManagerOrder() {
                 </div>
 
                 {/* Product Info */}
-                {carts.productItems.map((product) => (
+                {carts.productItems.map((product, index) => (
                   <div
-                    key={product._id}
+                    key={index}
                     className="border-t pt-2 mt-2 text-left text-sm"
                   >
                     <img
-                      src={`${product.productId.image}`}
-                      alt={product.productId.name}
+                      src={product.snapshot?.image}
+                      alt={product.snapshot?.name}
                       className="w-full h-40 object-cover rounded"
                     />
                     <p className="font-semibold mt-1">
-                      {product.productId.name}
+                      {product.snapshot?.name}
                     </p>
                     <p>
-                      <strong>Hãng:</strong> {product.productId.brands}
+                      <strong>Hãng:</strong> {product.snapshot?.brands}
                     </p>
                     <p>
-                      <strong>Loại:</strong> {product.productId.typeProduct}
+                      <strong>Loại:</strong> {product.snapshot?.typeProduct}
                     </p>
                     <p>
                       <strong>Trạng thái:</strong>
-                      {product.productId.stateProduct}
+                      {product.snapshot?.stateProduct}
                     </p>
                     <p>
                       <strong>Giá:</strong>
-                      {product.productId.price}
+                      {product.snapshot?.price}
                       VND
                     </p>
 
-                    <p>
-                      <strong>số lượng:</strong> {product.quantity}
-                    </p>
+                    <span>
+                      <strong>số lượng:</strong> {product.quantity}{" "}
+                    </span>
                     <p>
                       <strong>Ngày đặt:</strong>
                       {new Date(carts.createdAt).toLocaleDateString("vi-VN")}
@@ -156,9 +152,13 @@ export default function ManagerOrder() {
                     <FontAwesomeIcon icon={["fas", "check"]} />
                     Xác nhận
                   </button>
-                  <button className="flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-full font-semibold text-sm">
-                    <FontAwesomeIcon icon={["fas", "pen"]} />
-                    Sửa
+                  <button className="flex items-center gap-2 bg-amber-300 hover:bg-amber-400 text-white px-3 py-1 rounded-full font-semibold text-sm">
+                    <FontAwesomeIcon icon={["fas", "check"]} />
+                    Đã giao
+                  </button>
+                  <button className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-full font-semibold text-sm">
+                    <FontAwesomeIcon icon={["fas", "trash"]} />
+                    Xóa đơn
                   </button>
                 </div>
               </div>

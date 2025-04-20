@@ -31,7 +31,7 @@
 
 ---
 
-## ⚙️ Cách chạy dự án
+## ⚙️ Cách chạy dự án và chỉnh sửa
 
 - npm run dev : frontend
 - npm start: backend
@@ -47,11 +47,18 @@ git clone https://github.com/Khit1409/SeStore.git
 cd SeStore
 ```
 
-## 📌 To do list today
+## 📌 To do list
 
 <!-- 1. Thiết kế Database cho Oder Product -->
 <!-- 2. chạy thử và điều chỉnh controller. -->
 
-3. chỉnh lại các chức năng thêm sửa xóa lọc sản phẩm.
-4. sửa tên các file có cùng nhiệm vụ
-5. Tạo trang cho admin
+1. sửa cách hiện thị giỏ hàng
+2. tạo chức năng banking momo và banking
+3. tạo chức năng xóa tài khoản, xóa đơn hàng, xóa giỏ hàng
+   <!-- 3. chỉnh lại các chức năng thêm sửa xóa lọc sản phẩm. -->
+   <!-- 4. sửa tên các file có cùng nhiệm vụ -->
+   <!-- 5. Tạo trang cho admin -->
+
+##
+
+1. Sửa mấy chứ năng xóa

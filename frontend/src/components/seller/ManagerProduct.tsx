@@ -7,11 +7,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AppDispatch, RootState } from "../../features/appStore";
 
-type Data = {
+type DataType = {
   sellerId: string;
   typeProduct: string;
   limit: number;
   page: number;
+  search: string;
 };
 
 export default function ManagerProduct() {
@@ -19,11 +20,12 @@ export default function ManagerProduct() {
   const { user } = useSelector((state: RootState) => state.auth);
   const { product } = useSelector((state: RootState) => state.product);
 
-  const [data, setData] = useState<Data>({
+  const [data, setData] = useState<DataType>({
     sellerId: user?.userId as string,
     typeProduct: "",
     limit: 8,
     page: 1,
+    search: "",
   });
 
   useEffect(() => {
@@ -34,14 +36,21 @@ export default function ManagerProduct() {
           page: data.page,
           limit: 8,
           sellerId: data.sellerId,
+          search: data.search,
         })
       );
     };
     if (data.sellerId) fetchProducts();
   }, [data, dispatch]);
 
-  const handleChangeType = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setData((prev) => ({ ...prev, typeProduct: e.target.value, page: 1 }));
+  const handleOnChange = (
+    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
+  ) => {
+    setData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+      page: 1,
+    }));
   };
 
   const handleNextPage = () =>
@@ -62,8 +71,8 @@ export default function ManagerProduct() {
       {/* Filter */}
       <section className="flex flex-col md:flex-row items-center gap-4 mb-6 max-w-5xl mx-auto ">
         <select
-          onChange={handleChangeType}
-          value={data.typeProduct}
+          onChange={handleOnChange}
+          name="typeProduct"
           className="w-full md:w-1/2 border border-gray-400 outline-0 rounded-full px-4 py-2 text-center hover:outline hover:outline-green-500"
         >
           <option value="">Chọn loại sản phẩm</option>
@@ -77,16 +86,12 @@ export default function ManagerProduct() {
         {/* Search - future update */}
         <form className="relative w-full md:w-1/2">
           <input
+            onChange={handleOnChange}
+            name="search"
             type="text"
             placeholder="Tìm kiếm sản phẩm..."
             className="w-full border border-gray-400 rounded-full px-4 py-2 text-center outline-0"
           />
-          <button
-            type="submit"
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full"
-          >
-            <FontAwesomeIcon icon={["fas", "search"]} />
-          </button>
         </form>
       </section>
 
@@ -107,14 +112,14 @@ export default function ManagerProduct() {
                 <p className="font-semibold">{item.name}</p>
                 <p className="text-cyan-600 font-bold">{item.price} VND</p>
 
-                <div className="flex gap-2">
+                <div className="flex justify-between mt-3 gap-2">
                   <button
                     onClick={() => handleDeleteProduct(item._id)}
-                    className="rounded-full bg-red-500 px-2 py-1 text-white font-bold"
+                    className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-full font-semibold text-sm"
                   >
                     <FontAwesomeIcon icon={["fas", "trash"]} /> Xóa
                   </button>
-                  <button className="rounded-full bg-amber-300 px-2 py-1 text-white font-bold">
+                  <button className="flex items-center gap-2 bg-amber-300 hover:bg-amber-400 text-white px-3 py-1 rounded-full font-semibold text-sm">
                     <FontAwesomeIcon icon={["fas", "pen"]} /> Chỉnh sửa
                   </button>
                 </div>
@@ -132,14 +137,14 @@ export default function ManagerProduct() {
       <section className="flex justify-center items-center gap-4 mt-6">
         <button
           onClick={handlePrevPage}
-          className="p-2 border rounded hover:bg-gray-200"
+          className="p-2 border rounded-full hover:bg-gray-200"
         >
           <FontAwesomeIcon icon={["fas", "backward"]} />
         </button>
         <span className="w-10 text-center font-semibold">{data.page}</span>
         <button
           onClick={handleNextPage}
-          className="p-2 border rounded hover:bg-gray-200"
+          className="p-2 border rounded-full hover:bg-gray-200"
         >
           <FontAwesomeIcon icon={["fas", "forward"]} />
         </button>

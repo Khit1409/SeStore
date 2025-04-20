@@ -1,32 +1,60 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import Order from "../models/Order";
+import Product from "../models/Product";
 
 export const addToCart = async (req: Request, res: Response) => {
   try {
-    const { attributes, quantity, address, userId } = req.body;
+    const { attributes, quantity, address, userId, methodPay } = req.body;
     const productId = new mongoose.Types.ObjectId(req.params.productId);
 
-    // Tìm đơn hàng cũ của người dùng
+    // Tìm sản phẩm trong collection Product
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Sản phẩm không tồn tại" });
+    }
+
     const newCart = new Order({
       users: userId,
       productItems: [
         {
-          productId: productId,
-          quantity: quantity,
-          attributes: attributes,
+          productId: product._id,
+          quantity,
+          attributes,
+          snapshot: {
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            brands: product.brands,
+            stateProduct: product.stateProduct,
+            typeProduct: product.typeProduct,
+          },
         },
       ],
-      address: address,
+      product_detail: {
+        productId: product._id,
+        quantity,
+        attributes,
+        snapshot: {
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          brands: product.brands,
+          stateProduct: product.stateProduct,
+          typeProduct: product.typeProduct,
+        },
+      },
+      methodPay: methodPay,
+      address,
       totalProduct: 1,
     });
 
-    if (!newCart) {
-      return res.status(404).json({ message: "cannot create new cart:" });
-    }
     await newCart.save();
-    return res.status(200).json({ message: "New cart", newCart });
+    return res
+      .status(200)
+      .json({ message: "Thêm sản phẩm vào giỏ thành công", newCart });
   } catch (error) {
+    console.error("Lỗi khi thêm vào giỏ:", error);
     return res
       .status(500)
       .json({ message: "Không thể thêm sản phẩm vào giỏ!", error });

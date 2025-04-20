@@ -24,7 +24,7 @@ export default function AdminNavbar() {
     }
   };
   return (
-    <section className="container-lg flex items-center justify-around pt-1 fixed z-50 w-screen">
+    <section className="container-lg flex items-center justify-around pt-1 w-screen">
       {/* logo */}
       <div className="mx-2 h-[40px]">
         <img src="/logo.png" alt="logo" className="h-full w-[50px] rounded" />

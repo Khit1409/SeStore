@@ -1,22 +1,15 @@
-export interface ProductItem {
-  _id: string;
-  productId: 
-    {
-      _id: string;
-      image: string;
-      name: string;
-      price: number;
-      brands: string;
-      stateProduct: string;
-      typeProduct: string;
-      sellerId?: string;
-    }
-  ;
+export interface IProductItem {
+  productId: string;
   quantity: number;
-  attributes: {
+  attributes: { name: string; value: string[] }[];
+  snapshot: {
     name: string;
-    value: string[];
-  }[];
+    price: number;
+    image: string;
+    brands: string;
+    stateProduct: string;
+    typeProduct: string;
+  };
 }
 
 export interface Cart {
@@ -27,19 +20,25 @@ export interface Cart {
     phone: string;
     email: string;
   };
-  productItems: ProductItem[];
+  productItems: IProductItem[];
+  product_detail: IProductItem;
+  methodPay: string;
+  stateOrder: string;
+  shippingStatus: string;
   address: string;
   createdAt: string;
   updatedAt: string;
   __v: number;
 }
 
-interface CartState {
-  cart: Cart[] | null;
+interface ICartState {
+  carts: Cart[] | null;
+  cart_detail: Cart | null;
   error: string | null;
 }
 
-export const cartInitState: CartState = {
-  cart: null,
+export const cartInitState: ICartState = {
+  carts: null,
+  cart_detail: null,
   error: null,
 };

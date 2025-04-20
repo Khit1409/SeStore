@@ -5,15 +5,25 @@ import { getProductForUser } from "../../features/products/productsSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
+type RequestType = {
+  typeProduct: string;
+  price: string;
+  limit: 8;
+  stateProduct: string;
+  page: number;
+  search: string;
+};
+
 export default function UserStore() {
   const { product } = useSelector((state: RootState) => state.product);
   const dispatch = useDispatch<AppDispatch>();
-  const [res, setRes] = useState({
+  const [res, setRes] = useState<RequestType>({
     typeProduct: "",
     price: "",
     limit: 8,
     stateProduct: "",
     page: 1,
+    search: "",
   });
   useEffect(() => {
     const fetchProduct = async () => {
@@ -24,13 +34,16 @@ export default function UserStore() {
           limit: res.limit,
           page: res.page,
           price: res.price,
+          search: res.search,
         })
       );
     };
     fetchProduct();
   }, [dispatch, res]);
 
-  const handleOnchange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const handleOnchange = (
+    e: ChangeEvent<HTMLSelectElement | HTMLInputElement>
+  ) => {
     setRes((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -85,15 +98,11 @@ export default function UserStore() {
         <form className="relative flex-1 min-w-[200px]">
           <input
             type="text"
+            name="search"
+            onChange={handleOnchange}
             className="w-full h-[40px] border-[1.5px] rounded-full text-center outline-0 border-gray-400 bg-white shadow-sm"
             placeholder="Tìm kiếm..."
           />
-          <button
-            type="submit"
-            className="absolute right-1 top-1 bottom-1 px-3 rounded-full bg-green-500 text-white"
-          >
-            <FontAwesomeIcon icon={["fas", "search"]} />
-          </button>
         </form>
       </section>
 
@@ -120,7 +129,8 @@ export default function UserStore() {
                     to={`/user/buy/${item._id}`}
                     className="text-white bg-green-500 hover:bg-green-600 transition px-3 py-1 rounded-full text-sm"
                   >
-                    <FontAwesomeIcon icon={["fas", "cart-plus"]} /> Thêm vào giỏ hàng
+                    <FontAwesomeIcon icon={["fas", "cart-plus"]} /> Thêm vào giỏ
+                    hàng
                   </Link>
                 </div>
               </div>

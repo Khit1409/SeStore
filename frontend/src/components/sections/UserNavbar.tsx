@@ -44,6 +44,9 @@ export default function UserNavbar() {
           <Link to="/user/my_cart" className="hover:text-green-500 transition">
             Giỏ hàng
           </Link>
+          <Link to="/user/my_order" className="hover:text-green-500 transition">
+            Đơn hàng
+          </Link>
           <Link
             to="/user/my_profile"
             className="hover:text-green-500 transition"
@@ -103,6 +106,13 @@ export default function UserNavbar() {
             className="hover:text-green-500"
           >
             Giỏ hàng
+          </Link>
+          <Link
+            to="/user/my_order"
+            onClick={toggleMenu}
+            className="hover:text-green-500"
+          >
+            Đơn hàng
           </Link>
           <Link
             to="/user/my_profile"
