@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../features/appStore";
+import { AppDispatch, RootState } from "../../features/app.store";
 import { useEffect } from "react";
-import { getAccountForAdmin } from "../../features/auths/authSlice";
+import { getAccountForAdmin } from "../../features/auths/auth.slice";
 
 export default function AdminDashboard() {
   const { account } = useSelector((state: RootState) => state.auth);
@@ -25,12 +25,12 @@ export default function AdminDashboard() {
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div
-                    key={acc.userId}
+                    key={acc.user_id}
                     className="bg-white rounded-xl shadow p-4 hover:shadow-lg transition flex flex-col gap-2"
                   >
                     <p>
                       <strong>Tên:</strong>
-                      {acc.fullname}
+                      {acc.name}
                     </p>
                     <p>
                       <strong>Email:</strong>
@@ -61,12 +61,12 @@ export default function AdminDashboard() {
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div
-                    key={acc.userId}
+                    key={acc.user_id}
                     className="bg-white rounded-xl shadow p-4 hover:shadow-lg transition flex flex-col gap-2"
                   >
                     <p>
                       <strong>Tên:</strong>
-                      {acc.fullname}
+                      {acc.name}
                     </p>
                     <p>
                       <strong>Email:</strong>

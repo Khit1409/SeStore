@@ -1,21 +1,21 @@
 export type DecodedUser = {
-  userId: string;
+  user_id: string;
   avatar: string;
-  fullname: string;
+  name: string;
   phone: string;
   email: string;
   role: string;
 };
 
 export type AuthState = {
-  user: DecodedUser | null;
+  users: DecodedUser | null;
   account: DecodedUser[] | null;
   isAuthenticate: boolean;
   error: string | null;
 };
 
 export const initialState: AuthState = {
-  user: null,
+  users: null,
   account: null,
   isAuthenticate: false,
   error: null,

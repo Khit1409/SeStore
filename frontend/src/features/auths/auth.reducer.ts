@@ -6,7 +6,7 @@ import {
   login,
   logout,
   register,
-} from "./authSlice";
+} from "./auth.slice";
 
 const authSlice = createSlice({
   name: "auth",
@@ -24,7 +24,7 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.users = action.payload;
         state.isAuthenticate = true;
       })
       .addCase(login.rejected, (state, action) => {
@@ -34,10 +34,10 @@ const authSlice = createSlice({
 
       //register
       .addCase(register.pending, (state) => {
-        state.user = null;
+        state.users = null;
       })
       .addCase(register.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.users = action.payload;
       })
       .addCase(register.rejected, (state, action) => {
         state.error = action.payload ?? "lỗi đăng ký";
@@ -45,7 +45,7 @@ const authSlice = createSlice({
 
       // logout
       .addCase(logout.fulfilled, (state) => {
-        state.user = null;
+        state.users = null;
         state.isAuthenticate = false;
       })
       .addCase(logout.rejected, (state, action) => {
@@ -54,11 +54,11 @@ const authSlice = createSlice({
 
       // fetchAuth
       .addCase(fetchAuth.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.users = action.payload;
         state.isAuthenticate = true;
       })
       .addCase(fetchAuth.rejected, (state, action) => {
-        state.user = null;
+        state.users = null;
         state.error = action.payload ?? "Không thể xác thực";
         state.isAuthenticate = false;
       })
@@ -68,7 +68,7 @@ const authSlice = createSlice({
         state.account = null;
       })
       .addCase(getAccountForAdmin.fulfilled, (state, action) => {
-        state.account= action.payload;
+        state.account = action.payload;
       })
       .addCase(getAccountForAdmin.rejected, (state, action) => {
         state.error = action.payload ?? "Lỗi lấy danh sách acc";

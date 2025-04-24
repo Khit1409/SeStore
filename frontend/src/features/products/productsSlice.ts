@@ -7,8 +7,8 @@ const productUrl = import.meta.env.VITE_PRODUCT_API;
 export const getProductForSeller = createAsyncThunk<
   ProductType[],
   {
-    sellerId: string;
-    typeProduct: string;
+    seller_id: string;
+    type_product: string;
     limit: 8;
     page: number;
     search: string;
@@ -16,10 +16,10 @@ export const getProductForSeller = createAsyncThunk<
   { rejectValue: string }
 >(
   "product/get",
-  async ({ sellerId, limit, page, typeProduct, search }, thunkAPI) => {
+  async ({ seller_id, limit, page, type_product, search }, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${productUrl}/${sellerId}?typeProduct=${typeProduct}&limit=${limit}&page=${page}&search=${search}`
+        `${productUrl}/${seller_id}?typeProduct=${type_product}&limit=${limit}&page=${page}&search=${search}`
       );
       if (response.data.product) {
         return response.data.product;
@@ -39,9 +39,9 @@ export const getProductForSeller = createAsyncThunk<
 export const getProductForUser = createAsyncThunk<
   ProductType[],
   {
-    typeProduct: string;
+    type_product: string;
     price: string;
-    stateProduct: string;
+    state_product: string;
     limit: number;
     page: number;
     search: string;
@@ -50,12 +50,12 @@ export const getProductForUser = createAsyncThunk<
 >(
   "product/getUser",
   async (
-    { typeProduct, price, stateProduct, limit, page, search },
+    { type_product, price, state_product, limit, page, search },
     thunkAPI
   ) => {
     try {
       const response = await axios.get(
-        `${productUrl}?type=${typeProduct}&price=${price}&stateProduct=${stateProduct}&limit=${limit}&page=${page}&search=${search}`
+        `${productUrl}?type=${type_product}&price=${price}&stateProduct=${state_product}&limit=${limit}&page=${page}&search=${search}`
       );
       if (response.data.product) {
         return response.data.product;
@@ -73,11 +73,11 @@ export const getProductForUser = createAsyncThunk<
 //get product for detail product
 export const getProductForDetail = createAsyncThunk<
   ProductType,
-  { productId: string },
+  { product_id: string },
   { rejectValue: string }
->("product/getOrder", async ({ productId }, thunkAPI) => {
+>("product/getOrder", async ({ product_id }, thunkAPI) => {
   try {
-    const response = await axios.get(`${productUrl}/detail/${productId}`);
+    const response = await axios.get(`${productUrl}/detail/${product_id}`);
 
     if (response.data.product) {
       return response.data.product;
@@ -94,13 +94,13 @@ export const getProductForDetail = createAsyncThunk<
 
 export const deleteProduct = createAsyncThunk<
   ProductType[],
-  { productId: string; sellerId: string },
+  { product_id: string; seller_id: string },
   { rejectValue: string }
->("product/delete", async ({ productId, sellerId }, thunkAPI) => {
+>("product/delete", async ({ product_id, seller_id }, thunkAPI) => {
   try {
     const result = await axios.post(`${productUrl}/delete`, {
-      productId,
-      sellerId,
+      product_id,
+      seller_id,
     });
     if (result.status === 200) {
       return result.data.reRender;

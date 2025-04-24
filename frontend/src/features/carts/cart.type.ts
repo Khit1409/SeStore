@@ -1,5 +1,5 @@
 export interface IProductItem {
-  productId: string;
+  product_id: string;
   quantity: number;
   attributes: { name: string; value: string[] }[];
   snapshot: {
@@ -7,8 +7,8 @@ export interface IProductItem {
     price: number;
     image: string;
     brands: string;
-    stateProduct: string;
-    typeProduct: string;
+    state_product: string;
+    type_product: string;
   };
 }
 
@@ -16,15 +16,15 @@ export interface Cart {
   _id: string;
   users: {
     _id: string;
-    fullname: string;
+    name: string;
     phone: string;
     email: string;
   };
-  productItems: IProductItem[];
+  product_items: IProductItem[];
   product_detail: IProductItem;
-  methodPay: string;
-  stateOrder: string;
-  shippingStatus: string;
+  method_pay: string;
+  state_order: string;
+  shipping_status: string;
   address: string;
   createdAt: string;
   updatedAt: string;
@@ -35,10 +35,12 @@ interface ICartState {
   carts: Cart[] | null;
   cart_detail: Cart | null;
   error: string | null;
+  loading: boolean;
 }
 
 export const cartInitState: ICartState = {
   carts: null,
+  loading: false,
   cart_detail: null,
   error: null,
 };

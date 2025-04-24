@@ -1,5 +1,6 @@
+//trang hiện các sản phẩm trong shop
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../features/appStore";
+import { AppDispatch, RootState } from "../../features/app.store";
 import { ChangeEvent, useEffect, useState } from "react";
 import { getProductForUser } from "../../features/products/productsSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,7 +16,7 @@ type RequestType = {
 };
 
 export default function UserStore() {
-  const { product } = useSelector((state: RootState) => state.product);
+  const { products } = useSelector((state: RootState) => state.product);
   const dispatch = useDispatch<AppDispatch>();
   const [res, setRes] = useState<RequestType>({
     typeProduct: "",
@@ -29,8 +30,8 @@ export default function UserStore() {
     const fetchProduct = async () => {
       await dispatch(
         getProductForUser({
-          typeProduct: res.typeProduct,
-          stateProduct: res.stateProduct,
+          type_product: res.typeProduct,
+          state_product: res.stateProduct,
           limit: res.limit,
           page: res.page,
           price: res.price,
@@ -108,9 +109,9 @@ export default function UserStore() {
 
       {/* Product list */}
       <section className="flex items-center justify-center my-10">
-        {product && product.length > 0 ? (
+        {products && products.length > 0 ? (
           <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6 w-[95%]">
-            {product.map((item) => (
+            {products.map((item) => (
               <div
                 key={item._id}
                 className="bg-white rounded-xl p-4 shadow-md hover:shadow-lg transition duration-300"

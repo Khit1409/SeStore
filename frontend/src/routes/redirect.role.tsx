@@ -4,13 +4,13 @@ import IndexLayout from "../layouts/IndexLayout";
 import { DecodedUser } from "../features/type";
 
 interface Props {
-  user: DecodedUser | null;
+  users: DecodedUser | null;
 }
 
-const RedirectByRole = ({ user }: Props) => {
-  if (!user) return <IndexLayout />;
+const RedirectByRole = ({ users }: Props) => {
+  if (!users) return <IndexLayout />;
 
-  switch (user.role) {
+  switch (users.role) {
     case "admin":
       return <Navigate to="/admin/dashboard" replace />;
     case "seller":

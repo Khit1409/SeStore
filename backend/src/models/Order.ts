@@ -2,8 +2,8 @@ import mongoose, { Schema } from "mongoose";
 
 interface IOrder extends mongoose.Document {
   users: mongoose.Types.ObjectId;
-  productItems: {
-    productId: mongoose.Types.ObjectId;
+  product_items: {
+    product_id: mongoose.Types.ObjectId;
     quantity: number;
     attributes: {
       name: string;
@@ -19,7 +19,7 @@ interface IOrder extends mongoose.Document {
     };
   }[];
   product_detail: {
-    productId: mongoose.Types.ObjectId;
+    product_id: mongoose.Types.ObjectId;
     quantity: number;
     attributes: {
       name: string;
@@ -30,15 +30,14 @@ interface IOrder extends mongoose.Document {
       price: number;
       image: string;
       brands: string;
-      stateProduct: string;
-      typeProduct: string;
+      state_product: string;
+      type_product: string;
     };
   }[];
-  methodPay: string;
-  stateOrder: string;
-  shippingStatus: string;
+  method_pay: string;
+  state_order: string;
+  shipping_status: string;
   address: string;
-  totalProduct: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -46,9 +45,9 @@ interface IOrder extends mongoose.Document {
 const orderSchema = new mongoose.Schema<IOrder>(
   {
     users: { type: Schema.Types.ObjectId, ref: "Account", required: true },
-    productItems: [
+    product_items: [
       {
-        productId: {
+        product_id: {
           type: Schema.Types.ObjectId,
           ref: "Product",
           required: true,
@@ -65,13 +64,13 @@ const orderSchema = new mongoose.Schema<IOrder>(
           price: { type: Number, required: true },
           image: { type: String, required: true },
           brands: { type: String, required: true },
-          stateProduct: { type: String, required: true },
-          typeProduct: { type: String, required: true },
+          state_product: { type: String, required: true },
+          type_product: { type: String, required: true },
         },
       },
     ],
     product_detail: {
-      productId: {
+      product_id: {
         type: Schema.Types.ObjectId,
         ref: "Product",
         required: true,
@@ -88,28 +87,27 @@ const orderSchema = new mongoose.Schema<IOrder>(
         price: { type: Number, required: true },
         image: { type: String, required: true },
         brands: { type: String, required: true },
-        stateProduct: { type: String, required: true },
-        typeProduct: { type: String, required: true },
+        state_product: { type: String, required: true },
+        type_product: { type: String, required: true },
       },
     },
 
-    methodPay: {
+    method_pay: {
       type: String,
       enum: ["momo", "banking", "cod"],
       default: "cod",
     },
-    stateOrder: {
+    state_order: {
       type: String,
       enum: ["paid", "unpaid", "wait_checking"],
       default: "wait_checking",
     },
-    shippingStatus: {
+    shipping_status: {
       type: String,
       enum: ["sold_delivered", "wait_shipping", "shipping"],
       default: "wait_shipping",
     },
     address: { type: String, required: true },
-    totalProduct: { type: Number, required: true },
   },
   { timestamps: true }
 );

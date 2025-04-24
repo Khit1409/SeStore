@@ -5,11 +5,11 @@ import {
   getProductForSeller,
 } from "../../features/products/productsSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { AppDispatch, RootState } from "../../features/appStore";
+import { AppDispatch, RootState } from "../../features/app.store";
 
 type DataType = {
-  sellerId: string;
-  typeProduct: string;
+  seller_id: string;
+  type_product: string;
   limit: number;
   page: number;
   search: string;
@@ -17,12 +17,12 @@ type DataType = {
 
 export default function ManagerProduct() {
   const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.auth);
-  const { product } = useSelector((state: RootState) => state.product);
+  const { users } = useSelector((state: RootState) => state.auth);
+  const { products } = useSelector((state: RootState) => state.product);
 
   const [data, setData] = useState<DataType>({
-    sellerId: user?.userId as string,
-    typeProduct: "",
+    seller_id: users?.user_id as string,
+    type_product: "",
     limit: 8,
     page: 1,
     search: "",
@@ -32,15 +32,15 @@ export default function ManagerProduct() {
     const fetchProducts = () => {
       dispatch(
         getProductForSeller({
-          typeProduct: data.typeProduct,
+          type_product: data.type_product,
           page: data.page,
           limit: 8,
-          sellerId: data.sellerId,
+          seller_id: data.seller_id,
           search: data.search,
         })
       );
     };
-    if (data.sellerId) fetchProducts();
+    if (data.seller_id) fetchProducts();
   }, [data, dispatch]);
 
   const handleOnChange = (
@@ -58,9 +58,9 @@ export default function ManagerProduct() {
   const handlePrevPage = () =>
     setData((prev) => ({ ...prev, page: Math.max(prev.page - 1, 1) }));
 
-  const handleDeleteProduct = async (productId: string) => {
+  const handleDeleteProduct = async (product_id: string) => {
     dispatch(
-      deleteProduct({ sellerId: user?.userId as string, productId: productId })
+      deleteProduct({ seller_id: users?.user_id as string, product_id: product_id })
     );
   };
   return (
@@ -97,9 +97,9 @@ export default function ManagerProduct() {
 
       {/* Product Grid */}
       <section className="my-6">
-        {product && product.length > 0 ? (
+        {products && products.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {product.map((item) => (
+            {products.map((item) => (
               <div
                 key={item._id}
                 className="flex flex-col items-center text-center p-3 rounded-lg shadow-sm hover:shadow-md transition gap-2"

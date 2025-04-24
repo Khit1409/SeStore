@@ -2,9 +2,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LoaddingAnimation from "../loadings/LoaddingAnimation";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { login } from "../../features/auths/authSlice";
+import { login } from "../../features/auths/auth.slice";
 import { Link, useNavigate } from "react-router-dom";
-import { AppDispatch, RootState } from "../../features/appStore";
+import { AppDispatch, RootState } from "../../features/app.store";
 
 type Data = {
   email: string;
@@ -16,7 +16,7 @@ export default function LoginForm() {
   const [mess, setMess] = useState<string>("");
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { user } = useSelector((state: RootState) => state.auth);
+  const { users } = useSelector((state: RootState) => state.auth);
   const [data, setData] = useState<Data>({
     email: "",
     password: "",
@@ -30,8 +30,8 @@ export default function LoginForm() {
   };
   //check navigate with role
   useEffect(() => {
-    if (user?.role) {
-      switch (user.role) {
+    if (users?.role) {
+      switch (users.role) {
         case "user":
           navigate("/user");
           break;
@@ -45,7 +45,7 @@ export default function LoginForm() {
           navigate("/");
       }
     }
-  }, [user, navigate]);
+  }, [users, navigate]);
   //post form data
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

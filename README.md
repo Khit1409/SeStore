@@ -54,6 +54,9 @@ cd SeStore
 
 1. sửa cách hiện thị giỏ hàng
 2. tạo chức năng banking momo và banking
+
+- nhấn nút thanh toán --> chuyển sang trang thanh toán, khi thanh toán xong chuyển stateOrder sang đã thanh toán --> trả về các đơn hàng đã thanh toán
+
 3. tạo chức năng xóa tài khoản, xóa đơn hàng, xóa giỏ hàng
    <!-- 3. chỉnh lại các chức năng thêm sửa xóa lọc sản phẩm. -->
    <!-- 4. sửa tên các file có cùng nhiệm vụ -->
@@ -61,4 +64,4 @@ cd SeStore
 
 ##
 
-1. Sửa mấy chứ năng xóa
+1. Sửa mấy chức năng xóa

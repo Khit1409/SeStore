@@ -2,72 +2,30 @@ import mongoose from "mongoose";
 import Order from "../models/Order";
 import { Request, Response } from "express";
 
-//adtocart
-
 //get cart for user
 export const getCart = async (req: Request, res: Response) => {
   try {
-    const userId = new mongoose.Types.ObjectId(req.params.userId);
+    const user_id = new mongoose.Types.ObjectId(req.params.user_id);
 
-    if (!userId) {
-      return res.status(400).json({ message: "Thiếu userId trong request" });
+    if (!user_id) {
+      return res.status(400).json({ message: "Thiếu user_id trong request" });
     }
 
-    const userCart = await Order.find({ users: userId })
+    const userCart = await Order.find({
+      users: user_id,
+      $or: [{ state_order: "wait_checking" }, { state_order: "unpaid" }],
+    })
       .populate(
-        "productItems.productId",
-        "sellerId name price image brands stateProduct typeProduct"
+        "product_detail.product_id",
+        "seller_id name price image brands state_product type_product"
       )
-      .populate("productItems.quantity")
-      .populate("productItems.attributes");
+      .populate("product_detail.quantity")
+      .populate("product_detail.attributes");
 
     res.status(200).json({ message: "", cart: userCart });
   } catch (error) {
     console.error("Lỗi khi lấy giỏ hàng:", error);
     res.status(500).json({ message: "Lỗi server", error });
-  }
-};
-
-//get cart for order
-export const getOrdersBySeller = async (req: Request, res: Response) => {
-  try {
-    const id = req.params.sellerId;
-    const page = parseInt(req.query.page as string);
-    const limit = parseInt(req.query.limit as string);
-    // Kiểm tra sellerId hợp lệ
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ message: "sellerId không hợp lệ" });
-    }
-    const skip = (page - 1) * limit;
-    const sellerId = new mongoose.Types.ObjectId(id);
-    // Lấy tất cả đơn hàng và populate thông tin sản phẩm
-    const allOrders = await Order.find()
-      .populate({
-        path: "productItems.productId",
-        model: "Product",
-        select: "name price sellerId image brands stateProduct typeProduct",
-      })
-      .populate({
-        path: "users",
-        model: "Account",
-        select: "fullname email phone",
-      })
-      .skip(skip)
-      .limit(limit);
-    // Lọc đơn hàng chứa sản phẩm của seller
-    const sellerOrders = allOrders.filter((order) =>
-      order.productItems.some((item) => {
-        const product = item.productId as any;
-        return product && product.sellerId?.equals(sellerId);
-      })
-    );
-    res.status(200).json({
-      message: "Các đơn hàng của shop bạn:",
-      store: sellerOrders,
-    });
-  } catch (error) {
-    console.error("Lỗi khi lấy đơn hàng theo seller:", error);
-    res.status(500).json({ message: "Lỗi server" });
   }
 };
 //get cart detail for payment page
@@ -82,5 +40,23 @@ export const getCartForDetail = async (req: Request, res: Response) => {
     }
   } catch (error) {
     return res.status(404).json({ message: "can not get this cart" });
+  }
+};
+//cancelCart
+export const cancelCart = async (req: Request, res: Response) => {
+  try {
+    const user_id = new mongoose.Types.ObjectId(req.params.user_id);
+    const cart_id = new mongoose.Types.ObjectId(req.params.cart_id as string);
+    const delete_cart = await Order.findByIdAndDelete(cart_id);
+    if (delete_cart) {
+      const carts = await Order.find({ users: user_id });
+      return res
+        .status(200)
+        .json({ message: "Xóa thành công, giỏ hàng còn lại", carts });
+    } else {
+      return res.status(401).json({ message: "can not find and delete" });
+    }
+  } catch (error) {
+    return res.status(404).json({ message: "delete failed!" });
   }
 };

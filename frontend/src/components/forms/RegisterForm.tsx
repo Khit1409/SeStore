@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { register } from "../../features/auths/authSlice";
+import { register } from "../../features/auths/auth.slice";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../features/appStore";
+import { AppDispatch } from "../../features/app.store";
 
 export type RegisterData = {
-  fullname: string;
+  name: string;
   phone: string;
   avatar: string;
   email: string;
@@ -20,7 +20,7 @@ export default function RegisterForm() {
   const [loading, setloading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [data, setData] = useState<RegisterData>({
-    fullname: "",
+    name: "",
     email: "",
     password: "",
     avatar: "",
@@ -51,7 +51,7 @@ export default function RegisterForm() {
         register({
           email: data.email,
           role: data.role,
-          fullname: data.fullname,
+          name: data.name,
           password: data.password,
           phone: data.password,
           avatar: data.avatar,
@@ -105,7 +105,7 @@ export default function RegisterForm() {
                 </label>
                 <input
                   type="text"
-                  name="fullname"
+                  name="name"
                   onChange={handleOnchange}
                   className="h-[40px] border-[1.5px] border-gray-400 rounded text-center"
                   placeholder="Nhập họ tên của bạn"

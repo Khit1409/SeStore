@@ -6,7 +6,7 @@ export default function IndexLayout() {
   return (
     <div className="">
       <header>
-        <div className="bg-[url('/banner.png')] bg-cover bg-center h-screen w-screen">
+        <div className="bg-[url('/banner.png')] bg-cover bg-center h-screen">
           <Navbar />
         </div>
       </header>

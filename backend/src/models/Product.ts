@@ -7,21 +7,21 @@ type Attributes = {
 
 export interface IProduct extends mongoose.Document {
   productId: mongoose.Types.ObjectId;
-  sellerId: mongoose.Types.ObjectId;
+  seller_id: mongoose.Types.ObjectId;
   name: string;
   price: number;
   image: string;
   brands: string;
   attributes: Attributes[];
-  stateProduct: string;
-  typeProduct: string;
+  state_product: string;
+  type_product: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
 const productSchema = new mongoose.Schema<IProduct>(
   {
-    sellerId: { type: Schema.Types.ObjectId, ref: "Account" },
+    seller_id: { type: Schema.Types.ObjectId, ref: "Account" },
     name: { type: String, required: true },
     price: { type: Number, required: true },
     image: { type: String, required: true },
@@ -35,13 +35,13 @@ const productSchema = new mongoose.Schema<IProduct>(
         },
       },
     ],
-    stateProduct: {
+    state_product: {
       type: String,
       enum: ["new", "used"],
       required: true,
       default: "new",
     },
-    typeProduct: {
+    type_product: {
       type: String,
       enum: [
         "fashion",

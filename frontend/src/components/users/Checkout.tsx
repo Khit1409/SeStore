@@ -1,14 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { AppDispatch, RootState } from "../../features/appStore";
-import { useEffect } from "react";
-import { getCartForDetail } from "../../features/carts/cartSlice";
+import { Navigate, useParams } from "react-router-dom";
+import { AppDispatch, RootState } from "../../features/app.store";
+import { useEffect, useState } from "react";
+import { getCartForDetail } from "../../features/carts/cart.slice";
+import { addToOrder } from "../../features/orders/order.slice";
 
-export default function PlaceOrder() {
+export default function Checkout() {
   const { cart_id } = useParams<string>();
   const dispatch = useDispatch<AppDispatch>();
   const { cart_detail, error } = useSelector((state: RootState) => state.cart);
-
+  const [alert, setAlert] = useState<boolean | null>(null);
   useEffect(() => {
     if (cart_id) {
       dispatch(getCartForDetail({ cart_id }));
@@ -18,6 +19,16 @@ export default function PlaceOrder() {
   if (error) {
     return <div className="text-red-500 text-center mt-10">Lỗi: {error}</div>;
   }
+
+  const handleCheckout = async () => {
+    const result = await dispatch(addToOrder({ cart_id: cart_id as string }));
+    setAlert(null);
+    if (addToOrder.fulfilled.match(result)) {
+      setAlert(true);
+    } else {
+      setAlert(false);
+    }
+  };
 
   return (
     <section className="max-w-5xl mx-auto p-6 my-6 bg-white shadow-xl rounded-2xl">
@@ -30,7 +41,7 @@ export default function PlaceOrder() {
           {/* Thông tin đơn hàng */}
           <div className="md:col-span-2 space-y-4">
             <p>
-              <span className="font-semibold text-gray-700">Mã đơn hàng:</span>{" "}
+              <span className="font-semibold text-gray-700">Mã đơn hàng:</span>
               {cart_detail._id}
             </p>
 
@@ -57,16 +68,16 @@ export default function PlaceOrder() {
               <span className="font-semibold text-gray-700">
                 Phương thức thanh toán:
               </span>{" "}
-              {cart_detail.methodPay.toUpperCase()}
+              {cart_detail.method_pay.toUpperCase()}
             </p>
 
             <p>
               <span className="font-semibold text-gray-700">
                 Trạng thái đơn hàng:
               </span>{" "}
-              {cart_detail.stateOrder === "wait_checking"
+              {cart_detail.state_order === "wait_checking"
                 ? "Chờ xác nhận"
-                : cart_detail.stateOrder === "paid"
+                : cart_detail.state_order === "paid"
                 ? "Đã thanh toán"
                 : "Chưa thanh toán"}
             </p>
@@ -90,9 +101,19 @@ export default function PlaceOrder() {
               <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium shadow-md transition">
                 Hủy đơn
               </button>
-              <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-medium shadow-md transition">
+              <button
+                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-medium shadow-md transition"
+                onClick={handleCheckout}
+              >
                 Thanh toán
               </button>
+            </div>
+            <div>
+              {alert ? (
+                <Navigate to={"/user/my_order"} replace />
+              ) : (
+                <p className="text-red-500">Thanh toán không thành công!</p>
+              )}
             </div>
           </div>
 

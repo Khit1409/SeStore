@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { AppDispatch, RootState } from "../../features/appStore";
+import { AppDispatch, RootState } from "../../features/app.store";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../features/auths/authSlice";
+import { logout } from "../../features/auths/auth.slice";
 
 export default function UserNavbar() {
   const { isAuthenticate } = useSelector((state: RootState) => state.auth);

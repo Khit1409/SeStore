@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../features/app.store";
 import {
-  getOrderConfirm,
+  getOrderForSeller,
   submitOrder,
 } from "../../features/orders/order.slice";
 
@@ -14,7 +14,7 @@ type PostType = {
   page: number;
 };
 
-export default function ManagerOrder() {
+export default function ComfirmOrder() {
   const dispatch = useDispatch<AppDispatch>();
   const { users } = useSelector((state: RootState) => state.auth);
   const { orders } = useSelector((state: RootState) => state.order);
@@ -28,12 +28,12 @@ export default function ManagerOrder() {
 
   useEffect(() => {
     const fetchOrder = async () =>
-      await dispatch(getOrderConfirm({ seller_id: users?.user_id as string }));
+      await dispatch(getOrderForSeller({ seller_id: users?.user_id as string }));
     fetchOrder();
   }, [dispatch, users]);
 
   const handleChangeType = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setPost((prev) => ({ ...prev, typeProduct: e.target.value, page: 1 }));
+    setPost((prev) => ({ ...prev, type_product: e.target.value, page: 1 }));
   };
 
   const handleNextPage = () =>
@@ -147,11 +147,8 @@ export default function ManagerOrder() {
 
                 {/* Actions */}
                 <div className="flex justify-between mt-3">
-                  <button className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full font-semibold text-sm">
-                    <FontAwesomeIcon icon={["fas", "check"]} />
-                    Xác nhận
-                  </button>
                   <button
+                    className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full font-semibold text-sm"
                     onClick={() => {
                       dispatch(
                         submitOrder({
@@ -159,8 +156,11 @@ export default function ManagerOrder() {
                         })
                       );
                     }}
-                    className="flex items-center gap-2 bg-amber-300 hover:bg-amber-400 text-white px-3 py-1 rounded-full font-semibold text-sm"
                   >
+                    <FontAwesomeIcon icon={["fas", "check"]} />
+                    Xác nhận
+                  </button>
+                  <button className="flex items-center gap-2 bg-amber-300 hover:bg-amber-400 text-white px-3 py-1 rounded-full font-semibold text-sm">
                     <FontAwesomeIcon icon={["fas", "check"]} />
                     Đã giao
                   </button>

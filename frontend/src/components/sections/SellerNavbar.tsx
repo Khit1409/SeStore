@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { AppDispatch, RootState } from "../../features/appStore";
+import { AppDispatch, RootState } from "../../features/app.store";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../features/auths/authSlice";
+import { logout } from "../../features/auths/auth.slice";
 
 export default function SellerNavbar() {
   const { isAuthenticate } = useSelector((state: RootState) => state.auth);
@@ -27,7 +27,10 @@ export default function SellerNavbar() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex gap-6 text-lg font-medium text-gray-800">
-          <Link to="/seller/dashboard" className="hover:text-cyan-600 transition">
+          <Link
+            to="/seller/dashboard"
+            className="hover:text-cyan-600 transition"
+          >
             Trang chủ
           </Link>
           <Link
@@ -36,11 +39,11 @@ export default function SellerNavbar() {
           >
             Quản lý sản phẩm
           </Link>
-          <Link
-            to="/seller/mystore_order"
-            className="hover:text-cyan-600 transition"
-          >
-            Quản lý đơn hàng
+          <Link to="/seller/comfirm_order" className="hover:text-cyan-600">
+            Xác nhận đơn
+          </Link>
+          <Link to="/seller/mystore_order" className="hover:text-cyan-600">
+            Đơn đã xác nhận
           </Link>
         </nav>
 
@@ -96,12 +99,20 @@ export default function SellerNavbar() {
           >
             Quản lý sản phẩm
           </Link>
+
+          <Link
+            to="/seller/comfirm_order"
+            onClick={toggleMenu}
+            className="hover:text-cyan-600"
+          >
+            Xác nhận đơn
+          </Link>
           <Link
             to="/seller/mystore_order"
             onClick={toggleMenu}
             className="hover:text-cyan-600"
           >
-            Quản lý đơn hàng
+            Đơn đã xác nhận
           </Link>
         </nav>
       )}

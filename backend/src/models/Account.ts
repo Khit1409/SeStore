@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 interface IAccount extends mongoose.Document {
   _id: string;
   avatar: string;
-  fullname: string;
+  name: string;
   email: string;
   password: string;
   phone: string;
@@ -15,7 +15,7 @@ interface IAccount extends mongoose.Document {
 const accountSchema = new mongoose.Schema<IAccount>(
   {
     avatar: { type: String, required: true },
-    fullname: { type: String, required: true },
+    name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     phone: { type: String, required: true },

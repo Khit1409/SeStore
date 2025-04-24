@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Attributes } from "../products/productType";
 import axios from "axios";
-import { Cart } from "./cartType";
+import { Cart } from "./cart.type";
 
 const cartUrl = import.meta.env.VITE_CART_API;
 const orderUrl = import.meta.env.VITE_ORDER_API;
@@ -9,26 +9,26 @@ const orderUrl = import.meta.env.VITE_ORDER_API;
 export const addToCart = createAsyncThunk<
   Cart,
   {
-    productId: string;
-    methodPay: string;
+    product_id: string;
+    method_pay: string;
     attributes: Attributes[];
     quantity: number;
     address: string;
-    userId: string;
+    user_id: string;
   },
   { rejectValue: string }
 >(
-  "cart/addtocart",
+  "cart/add_to_cart",
   async (
-    { productId, attributes, quantity, address, userId, methodPay },
+    { product_id, attributes, quantity, address, user_id, method_pay },
     thunkAPI
   ) => {
     try {
-      const response = await axios.post(`${orderUrl}/addtocart/${productId}`, {
-        userId,
+      const response = await axios.post(`${orderUrl}/addtocart/${product_id}`, {
+        user_id,
         address,
         attributes,
-        methodPay,
+        method_pay,
         quantity,
       });
       if (response.data.newCart) {
@@ -45,11 +45,11 @@ export const addToCart = createAsyncThunk<
 //get cart
 export const getCart = createAsyncThunk<
   Cart[],
-  { userId: string },
+  { user_id: string },
   { rejectValue: string }
->("cart/getCart", async ({ userId }, thunkAPI) => {
+>("cart/get_cart", async ({ user_id }, thunkAPI) => {
   try {
-    const response = await axios.get(`${cartUrl}/get_cart/${userId}`);
+    const response = await axios.get(`${cartUrl}/get_cart/${user_id}`);
     if (response.data?.cart) {
       return response.data.cart;
     }
@@ -62,36 +62,12 @@ export const getCart = createAsyncThunk<
   }
 });
 
-//get cart for seller
-export const getCartForSeller = createAsyncThunk<
-  Cart[],
-  { sellerId: string; typeProduct: string; page: number; limit: number },
-  { rejectValue: string }
->(
-  "cart/get_seller",
-  async ({ sellerId, typeProduct, page, limit }, thunkAPI) => {
-    try {
-      const response = await axios.get(
-        `${cartUrl}/seller/${sellerId}?type=${typeProduct}&page=${page}&limit=${limit}`
-      );
-      if (response.data) {
-        return response.data.store;
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        return thunkAPI.rejectWithValue("Khong lay gio hang cho seller duoc!");
-      }
-      return thunkAPI.rejectWithValue("Loi khong xac dinh");
-    }
-  }
-);
-
 //fetch cart for place orer
 export const getCartForDetail = createAsyncThunk<
   Cart,
   { cart_id: string },
   { rejectValue: string }
->("cart/getPay", async ({ cart_id }, thunkAPI) => {
+>("cart/get_pay", async ({ cart_id }, thunkAPI) => {
   try {
     const carts = await axios.get(`${cartUrl}/payment/${cart_id}`);
     if (carts.data) {
@@ -107,11 +83,13 @@ export const getCartForDetail = createAsyncThunk<
 //cancel cart
 export const cancelCart = createAsyncThunk<
   Cart[],
-  { cart_id: string },
+  { cart_id: string; user_id: string },
   { rejectValue: string }
->("cart/cancel", async ({ cart_id }, thunkAPI) => {
+>("cart/cancel", async ({ cart_id, user_id }, thunkAPI) => {
   try {
-    const new_cart = await axios.post(`${cartUrl}/cancel/${cart_id}`);
+    const new_cart = await axios.delete(
+      `${cartUrl}/cancel/${user_id}/${cart_id}`
+    );
     if (new_cart.data) {
       return new_cart.data.carts;
     }

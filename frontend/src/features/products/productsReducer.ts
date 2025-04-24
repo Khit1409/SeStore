@@ -18,46 +18,46 @@ const productsSlice = createSlice({
     builder
       .addCase(getProductForSeller.pending, (state) => {
         state.error = null;
-        state.product = null;
+        state.products = null;
       })
       .addCase(getProductForSeller.fulfilled, (state, action) => {
-        state.product = action.payload;
+        state.products = action.payload;
       })
       .addCase(getProductForSeller.rejected, (state, action) => {
-        state.product = null;
+        state.products = null;
         state.error = action.payload ?? "Lỗi lấy sản phẩm";
       })
       .addCase(getProductForUser.pending, (state) => {
         state.error = null;
-        state.product = null;
+        state.products = null;
       })
       .addCase(getProductForUser.fulfilled, (state, action) => {
-        state.product = action.payload;
+        state.products = action.payload;
       })
       .addCase(getProductForUser.rejected, (state, action) => {
-        state.product = null;
+        state.products = null;
         state.error = action.payload ?? "Lỗi lấy sản phẩm khách hàng";
       })
       .addCase(getProductForDetail.pending, (state) => {
-        state.productDetai = null;
+        state.product_detail = null;
         state.error = null;
       })
       .addCase(getProductForDetail.fulfilled, (state, action) => {
-        state.productDetai = action.payload;
+        state.product_detail = action.payload;
       })
       .addCase(getProductForDetail.rejected, (state, action) => {
         state.error = action.payload ?? "lỗi lấy sản phẩm về order";
-        state.productDetai = null;
+        state.product_detail = null;
       })
       .addCase(deleteProduct.pending, (state) => {
         state.error = null;
-        state.product = null;
+        state.products = null;
       })
       .addCase(deleteProduct.fulfilled, (state, action) => {
-        state.product = action.payload;
+        state.products = action.payload;
       })
       .addCase(deleteProduct.rejected, (state, action) => {
-        state.product = null;
+        state.products = null;
         state.error = action.payload ?? "Lỗi xóa ";
       });
       

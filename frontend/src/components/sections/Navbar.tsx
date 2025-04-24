@@ -2,9 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 // import UserTable from "../users/UserTable";
-import { AppDispatch, RootState } from "../../features/appStore";
+import { AppDispatch, RootState } from "../../features/app.store";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../features/auths/authSlice";
+import { logout } from "../../features/auths/auth.slice";
 
 export default function Navbar() {
   const { isAuthenticate } = useSelector((state: RootState) => state.auth);
@@ -56,7 +56,7 @@ export default function Navbar() {
           </li>
           <li>
             <Link
-              to="/users"
+              to="/user"
               className="hover:border-b-[1.5px] hover:border-b-gray-500"
             >
               Cửa hàng

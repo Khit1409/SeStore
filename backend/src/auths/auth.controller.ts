@@ -19,7 +19,7 @@ export const checkAuth = async (req: Request, res: Response) => {
     ) as JwtPayload;
 
     // Nếu decode không có accountId thì coi như không hợp lệ
-    if (!decoded || !decoded.userId) {
+    if (!decoded || !decoded.user_id) {
       console.log("Decoded invalid:", decoded);
       return res.status(401).json({ message: "Token không hợp lệ!" });
     }
@@ -75,9 +75,9 @@ export const postLogin = async (req: Request, res: Response) => {
     // create token
     const token = jwt.sign(
       {
-        userId: account._id.toString(),
+        user_id: account._id.toString(),
         avatar: account.avatar,
-        fullname: account.fullname,
+        name: account.name,
         phone: account.phone,
         email: account.email,
         role: account.role,
@@ -99,9 +99,9 @@ export const postLogin = async (req: Request, res: Response) => {
       .json({
         message: "ĐĂNG NHẬP THÀNH CÔNG: ",
         user: {
-          userId: account._id,
+          user_id: account._id,
           avatar: account.avatar,
-          fullname: account.fullname,
+          name: account.name,
           phone: account.phone,
           email: account.email,
           role: account.role,
@@ -115,7 +115,7 @@ export const postLogin = async (req: Request, res: Response) => {
 //register
 export const postRegister = async (req: Request, res: Response) => {
   try {
-    const { fullname, email, password, repassword, phone, avatar, role } =
+    const { name, email, password, repassword, phone, avatar, role } =
       req.body;
 
     const checkaccount = await Account.findOne({ email });
@@ -126,7 +126,7 @@ export const postRegister = async (req: Request, res: Response) => {
     const hashPass = await handlePassword(req, res, password, repassword);
     //create account
     const newAccount = new Account({
-      fullname,
+      name,
       email,
       password: hashPass,
       avatar: avatar,

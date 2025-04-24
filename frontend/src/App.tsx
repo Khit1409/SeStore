@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "./features/appStore";
+import { AppDispatch, RootState } from "./features/app.store";
 import { useEffect, useState } from "react";
-import { fetchAuth } from "./features/auths/authSlice";
+import { fetchAuth } from "./features/auths/auth.slice";
 import { RouterProvider } from "react-router-dom";
 import { generateRouter } from "./routes/app.router";
 
 export default function App() {
   const dispatch = useDispatch<AppDispatch>();
   const [loading, setLoading] = useState(true);
-  const { user } = useSelector((state: RootState) => state.auth);
+  const { users } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     dispatch(fetchAuth()).finally(() => setLoading(false));
@@ -23,7 +23,7 @@ export default function App() {
       </div>
     );
   }
-  const router = generateRouter(user);
+  const router = generateRouter(users);
 
   return <RouterProvider router={router} />;
 }

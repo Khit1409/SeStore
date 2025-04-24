@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   addToCart,
+  cancelCart,
   getCart,
   getCartForDetail,
-  getCartForSeller,
-} from "./cartSlice";
-import { cartInitState } from "./cartType";
+} from "./cart.slice";
+import { cartInitState } from "./cart.type";
 
 const cartSlice = createSlice({
   name: "cart",
@@ -18,13 +18,16 @@ const cartSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(addToCart.pending, (state) => {
+        state.loading = true;
         state.cart_detail = null;
         state.error = null;
       })
       .addCase(addToCart.fulfilled, (state, action) => {
+        state.loading = false;
         state.cart_detail = action.payload;
       })
       .addCase(addToCart.rejected, (state, action) => {
+        state.loading = false;
         state.cart_detail = null;
         state.error = action.payload ?? "Lỗi khi thêm sản phẩm vào giỏ hàng";
       })
@@ -39,17 +42,6 @@ const cartSlice = createSlice({
         state.carts = null;
         state.error = action.payload ?? "Lỗi ";
       })
-      .addCase(getCartForSeller.pending, (state) => {
-        state.carts = null;
-        state.error = null;
-      })
-      .addCase(getCartForSeller.fulfilled, (state, action) => {
-        state.carts = action.payload;
-      })
-      .addCase(getCartForSeller.rejected, (state, action) => {
-        state.error = action.payload ?? "Lỗi lấy sản phẩm";
-        state.carts = null;
-      })
       .addCase(getCartForDetail.pending, (state) => {
         state.cart_detail = null;
         state.error = null;
@@ -60,6 +52,15 @@ const cartSlice = createSlice({
       .addCase(getCartForDetail.rejected, (state, action) => {
         state.error =
           action.payload ?? "Lỗi lấy chi tiết đơn hàng để thanh toán";
+      })
+      .addCase(cancelCart.pending, (state) => {
+        state.carts = null;
+      })
+      .addCase(cancelCart.fulfilled, (state, action) => {
+        state.carts = action.payload;
+      })
+      .addCase(cancelCart.rejected, (state, action) => {
+        state.error = action.payload ?? "cancel not successfully";
       });
   },
 });

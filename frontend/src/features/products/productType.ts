@@ -9,24 +9,18 @@ export type ProductType = {
   image: string;
   brands: string;
   attributes: Attributes[];
-  stateProduct: "new" | "used";
-  typeProduct:
-    | "fashion"
-    | "vehicles"
-    | "household_appliances"
-    | "devices"
-    | "other";
+  state_product: string;
+  type_product: string;
 };
 
 export type ProductState = {
-  product: ProductType[] | null;
-  productDetai: ProductType | null;
+  products: ProductType[] | null;
+  product_detail: ProductType | null;
   error: string | null;
 };
 
 export const productInitState: ProductState = {
-  productDetai: null,
-  product: null,
+  product_detail: null,
+  products: null,
   error: null,
 };
-

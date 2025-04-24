@@ -10,11 +10,11 @@ import {
 const productRouter = express.Router();
 
 //HTTP method
-productRouter.get("/:sellerId", async (req, res) => {
+productRouter.get("/:seller_id", async (req, res) => {
   await getProductForSeller(req, res);
 });
 
-productRouter.get("/detail/:productId", async (req, res) => {
+productRouter.get("/detail/:product_id", async (req, res) => {
   await getProductForDetail(req, res);
 });
 

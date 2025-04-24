@@ -1,36 +1,40 @@
+//trang hiện chi tiết sản phẩm
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { getProductForDetail } from "../../features/products/productsSlice";
-import { AppDispatch, RootState } from "../../features/appStore";
+import { AppDispatch, RootState } from "../../features/app.store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { addToCart } from "../../features/carts/cartSlice";
+import { addToCart } from "../../features/carts/cart.slice";
 
-export default function UserProductDetail() {
+export default function UserProduct_detaill() {
   const dispatch = useDispatch<AppDispatch>();
-  const { productDetai } = useSelector((state: RootState) => state.product);
-  const { productId } = useParams<string>();
-  const { user } = useSelector((state: RootState) => state.auth);
+  const { product_detail } = useSelector((state: RootState) => state.product);
+  const { product_id } = useParams<string>();
+  const { users } = useSelector((state: RootState) => state.auth);
+  const { loading } = useSelector((state: RootState) => state.cart);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
   const [dataPost, setDataPost] = useState<{
     quantity: number;
     address: string;
     attributes: { name: string; value: (string | number)[] }[];
-    methodPay: string;
+    method_pay: string;
   }>({
     quantity: 1,
     attributes: [],
     address: "",
-    methodPay: "",
+    method_pay: "",
   });
 
   useEffect(() => {
     const fetchProduct = async () => {
-      if (productId) {
-        await dispatch(getProductForDetail({ productId: productId }));
+      if (product_id) {
+        await dispatch(getProductForDetail({ product_id: product_id }));
       }
     };
     fetchProduct();
-  }, [dispatch, productId]);
+  }, [dispatch, product_id]);
 
   //onchange
   const handleOnchange = (
@@ -64,59 +68,73 @@ export default function UserProductDetail() {
   const handleAddToCart = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     //
-    await dispatch(
-      addToCart({
-        userId: user?.userId as string,
-        productId: productId as string,
-        quantity: dataPost.quantity,
-        address: dataPost.address,
-        attributes: dataPost.attributes,
-        methodPay: dataPost.methodPay,
-      })
-    );
+    try {
+      const actions = await dispatch(
+        addToCart({
+          user_id: users?.user_id as string,
+          product_id: product_id as string,
+          quantity: dataPost.quantity,
+          address: dataPost.address,
+          attributes: dataPost.attributes,
+          method_pay: dataPost.method_pay,
+        })
+      );
+      if (addToCart.fulfilled.match(actions)) {
+        setAlertType("success");
+        setAlertMessage("Đã thêm sản phẩm vào giỏ hàng!");
+      } else {
+        setAlertType("error");
+        setAlertMessage(
+          "Thiếu thông tin! không thể thêm sản phẩm vào giỏ hàng!"
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <section className="w-full min-h-screen bg-gray-100 p-6">
-      {productDetai ? (
+      {product_detail ? (
         <div className="flex flex-col md:flex-row items-start gap-6 bg-white shadow-lg rounded-xl p-6">
           {/* Hình ảnh sản phẩm */}
           <div className="w-full md:w-[40%]">
             <img
-              src={productDetai.image}
+              src={product_detail.image}
               className="rounded-xl w-full object-cover"
-              alt={productDetai.name}
+              alt={product_detail.name}
             />
           </div>
 
           {/* Thông tin và form */}
           <div className="flex-1 space-y-4">
             <h2 className="text-2xl font-bold text-gray-800">
-              {productDetai.name}
+              {product_detail.name}
             </h2>
             <div className="text-gray-700 space-y-2">
               <p>
-                <span className="font-semibold">Giá:</span> {productDetai.price}
+                <span className="font-semibold">Giá:</span>{" "}
+                {product_detail.price}
                 VND
               </p>
               <p>
                 <span className="font-semibold">Thương hiệu:</span>{" "}
-                {productDetai.brands}
+                {product_detail.brands}
               </p>
               <p>
                 <span className="font-semibold">Tình trạng:</span>{" "}
-                {productDetai.stateProduct}
+                {product_detail.state_product}
               </p>
               <p>
                 <span className="font-semibold">Loại sản phẩm:</span>{" "}
-                {productDetai.typeProduct}
+                {product_detail.type_product}
               </p>
             </div>
 
             {/* Form */}
             <form onSubmit={handleAddToCart} className="space-y-4">
               {/* Chọn thuộc tính */}
-              {productDetai.attributes &&
-                productDetai.attributes.map((attribute) => (
+              {product_detail.attributes &&
+                product_detail.attributes.map((attribute) => (
                   <div key={attribute.name} className="mb-3">
                     <span className="font-semibold text-gray-800">
                       {attribute.name}:
@@ -187,13 +205,13 @@ export default function UserProductDetail() {
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
                       type="radio"
-                      name="methodPay"
+                      name="method_pay"
                       value="momo"
-                      checked={dataPost.methodPay === "momo"}
+                      checked={dataPost.method_pay === "momo"}
                       onChange={(e) =>
                         setDataPost((prev) => ({
                           ...prev,
-                          methodPay: e.target.value,
+                          method_Pay: e.target.value,
                         }))
                       }
                       className="accent-green-500"
@@ -209,13 +227,13 @@ export default function UserProductDetail() {
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
                       type="radio"
-                      name="methodPay"
+                      name="method_pay"
                       value="banking"
-                      checked={dataPost.methodPay === "banking"}
+                      checked={dataPost.method_pay === "banking"}
                       onChange={(e) =>
                         setDataPost((prev) => ({
                           ...prev,
-                          methodPay: e.target.value,
+                          method_pay: e.target.value,
                         }))
                       }
                       className="accent-green-500"
@@ -231,13 +249,13 @@ export default function UserProductDetail() {
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
                       type="radio"
-                      name="methodPay"
+                      name="method_pay"
                       value="cod"
-                      checked={dataPost.methodPay === "cod"}
+                      checked={dataPost.method_pay === "cod"}
                       onChange={(e) =>
                         setDataPost((prev) => ({
                           ...prev,
-                          methodPay: e.target.value,
+                          method_pay: e.target.value,
                         }))
                       }
                       className="accent-green-500"
@@ -253,18 +271,36 @@ export default function UserProductDetail() {
               </div>
 
               {/* Nút submit */}
-              <div className="pt-4">
+              <div className="mb-3">
                 <button
                   type="submit"
                   className="w-full md:w-[200px] bg-green-500 hover:bg-green-600 transition py-2 rounded-xl text-white font-semibold text-lg shadow"
                 >
-                  <FontAwesomeIcon
-                    icon={["fas", "cart-plus"]}
-                    className="mr-2"
-                  />
-                  Thêm vào giỏ
+                  {loading ? (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="w-[30px] h-[30px] border-2 border-green-500 border-t-transparent animate-spin rounded-full" />
+                    </div>
+                  ) : (
+                    <>
+                      <FontAwesomeIcon
+                        icon={["fas", "cart-plus"]}
+                        className="mr-2"
+                      />
+                      Thêm vào giỏ
+                    </>
+                  )}
                 </button>
               </div>
+              {/* thông báo */}
+              {alertMessage && (
+                <p
+                  className={`text-sm font-medium mt-2 ${
+                    alertType === "success" ? "text-green-500" : "text-red-500"
+                  }`}
+                >
+                  {alertMessage}
+                </p>
+              )}
             </form>
           </div>
         </div>
