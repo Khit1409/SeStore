@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  addToOrder,
+  checkoutOrder,
   getOrder,
   getOrderConfirm,
   getOrderForSeller,
@@ -18,20 +18,7 @@ const orderSlice = createSlice({
   },
   extraReducers: (bulder) => {
     bulder
-      .addCase(addToOrder.pending, (state) => {
-        state.order_detail = null;
-        state.error = null;
-        state.loading = false;
-      })
-      .addCase(addToOrder.fulfilled, (state, action) => {
-        state.order_detail = action.payload;
-        state.loading = false;
-      })
-      .addCase(addToOrder.rejected, (state, action) => {
-        state.order_detail = null;
-        state.error = action.payload ?? "Lỗi thêm đơn hàng";
-        state.loading = false;
-      })
+
       .addCase(getOrder.pending, (state) => {
         state.orders = null;
         state.error = null;
@@ -72,6 +59,16 @@ const orderSlice = createSlice({
       })
       .addCase(getOrderConfirm.rejected, (state, action) => {
         state.error = action.payload ?? "Can not get order";
+      })
+      .addCase(checkoutOrder.pending, (state) => {
+        state.checkoutUrl = null;
+      })
+      .addCase(checkoutOrder.fulfilled, (state, action) => {
+        state.checkoutUrl = action.payload;
+      })
+      .addCase(checkoutOrder.rejected, (state, action) => {
+        state.checkoutUrl = null;
+        state.error = action.payload ?? "Lỗi tạo link thanh toán";
       });
   },
 });

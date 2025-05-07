@@ -65,3 +65,21 @@ cd SeStore
 ##
 
 1. Sửa mấy chức năng xóa
+
+##
+
+FE React:
+
+- User đặt hàng => Sinh QR theo số tiền & nội dung riêng
+- FE show QR cho user quét
+
+User:
+
+- Quét QR và chuyển khoản đúng số tiền, nội dung
+
+Backend Node.js:
+
+- 1 phút/lần gọi API ngân hàng lấy danh sách giao dịch
+- Nếu thấy giao dịch phù hợp với đơn hàng (khớp amount + purpose)
+  => Cập nhật trạng thái đơn hàng: "Đã thanh toán"
+  => Gửi email/Zalo cho khách xác nhận luôn

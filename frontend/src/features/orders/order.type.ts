@@ -41,6 +41,7 @@ interface IOrderState {
   orders: Order[] | null;
   order_detail: Order | null;
   error: string | null;
+  checkoutUrl: string | null;
   loading: boolean;
 }
 
@@ -48,5 +49,6 @@ export const orderInitState: IOrderState = {
   orders: null,
   order_detail: null,
   loading: false,
+  checkoutUrl: null,
   error: null,
 };

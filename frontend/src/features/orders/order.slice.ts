@@ -2,24 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Order } from "./order.type";
 const orderUrl = import.meta.env.VITE_ORDER_API;
-export const addToOrder = createAsyncThunk<
-  Order,
-  { cart_id: string },
-  { rejectValue: string }
->("order/checkout", async ({ cart_id }, thunAPI) => {
-  try {
-    const response = await axios.put(`${orderUrl}/checkout_order/${cart_id}`);
-    if (response.data) {
-      return response.data.orders;
-    }
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      return thunAPI.rejectWithValue("Can not get your cart!");
-    }
-    return thunAPI.rejectWithValue("Can not know this error");
-  }
-});
-
+const checkoutUrl = import.meta.env.VITE_CHECKOUT_API;
+// lấy danh sách đơn hàng đã đặt
 export const getOrder = createAsyncThunk<
   Order[],
   { user_id: string },
@@ -37,7 +21,7 @@ export const getOrder = createAsyncThunk<
     return thunkAPI.rejectWithValue("Can not know this error!");
   }
 });
-
+// lấy danh sách đơn hàng đã được mua theo id người bán
 export const getOrderForSeller = createAsyncThunk<
   Order[],
   { seller_id: string },
@@ -58,6 +42,7 @@ export const getOrderForSeller = createAsyncThunk<
   }
 });
 
+// xác nhận đơn hàng thủ công phía người bán
 export const submitOrder = createAsyncThunk<
   Order[],
   { order_id: string },
@@ -76,6 +61,8 @@ export const submitOrder = createAsyncThunk<
     return thunkAPI.rejectWithValue("Lỗi không xác định");
   }
 });
+
+// lấy danh sách đơn hàng đã được mua và chờ vận chuyển
 export const getOrderConfirm = createAsyncThunk<
   Order[],
   { seller_id: string },
@@ -91,5 +78,28 @@ export const getOrderConfirm = createAsyncThunk<
       thunkAPI.rejectWithValue("Can not get your cart!");
     }
     return thunkAPI.rejectWithValue("Can not know this error!");
+  }
+});
+
+// thanh toán đơn hàng
+export const checkoutOrder = createAsyncThunk<
+  string,
+  { amount: number; orderCode: number },
+  { rejectValue: string }
+>("order/checkout_order", async ({ amount, orderCode }, thunkAPI) => {
+  try {
+    const response = await axios.post(`${checkoutUrl}/create-payment-link`, {
+      amount,
+      orderCode,
+    });
+    if (!response.data.checkoutUrl) {
+      return thunkAPI.rejectWithValue("Can not create payment link");
+    }
+    return response.data.checkoutUrl;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return thunkAPI.rejectWithValue("Có lỗi ở post!");
+    }
+    return thunkAPI.rejectWithValue("Lỗi không xác định!");
   }
 });

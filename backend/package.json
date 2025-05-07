@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "server.ts",
   "dependencies": {
+    "@payos/node": "^1.0.10",
     "abbrev": "^1.1.1",
     "accepts": "^2.0.0",
     "acorn": "^8.14.1",
@@ -171,6 +172,7 @@
     "util-deprecate": "^1.0.2",
     "v8-compile-cache-lib": "^3.0.1",
     "vary": "^1.1.2",
+    "vietnam-qr-pay": "^1.4.2",
     "webidl-conversions": "^7.0.0",
     "whatwg-url": "^14.2.0",
     "wide-align": "^1.1.5",

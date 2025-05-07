@@ -14,6 +14,7 @@ export interface IProductItem {
 
 export interface Cart {
   _id: string;
+  orderCode: number;
   users: {
     _id: string;
     name: string;

@@ -14,7 +14,10 @@ export const addToCart = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Sản phẩm không tồn tại" });
     }
 
+    const orderCode = Date.now();
+
     const newCart = new Order({
+      orderCode,
       users: user_id,
       product_items: [
         {
@@ -136,7 +139,7 @@ export const confirmOrder = async (req: Request, res: Response) => {
   }
 };
 
-//
+//lay don hang da duoc dat va thanh toan
 export const getOrderConfirm = async (req: Request, res: Response) => {
   try {
     const seller_id = new mongoose.Types.ObjectId(req.params.seller_id);

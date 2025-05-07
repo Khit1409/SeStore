@@ -1,15 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../../features/app.store";
 import { useEffect, useState } from "react";
 import { getCartForDetail } from "../../features/carts/cart.slice";
-import { addToOrder } from "../../features/orders/order.slice";
+import { checkoutOrder } from "../../features/orders/order.slice";
 
 export default function Checkout() {
   const { cart_id } = useParams<string>();
   const dispatch = useDispatch<AppDispatch>();
   const { cart_detail, error } = useSelector((state: RootState) => state.cart);
   const [alert, setAlert] = useState<boolean | null>(null);
+
   useEffect(() => {
     if (cart_id) {
       dispatch(getCartForDetail({ cart_id }));
@@ -21,11 +22,28 @@ export default function Checkout() {
   }
 
   const handleCheckout = async () => {
-    const result = await dispatch(addToOrder({ cart_id: cart_id as string }));
-    setAlert(null);
-    if (addToOrder.fulfilled.match(result)) {
-      setAlert(true);
-    } else {
+    try {
+      if (
+        cart_detail?.product_detail.quantity &&
+        cart_detail.product_detail.snapshot.price
+      ) {
+        const result = await dispatch(
+          checkoutOrder({
+            amount:
+              cart_detail?.product_detail.snapshot.price *
+              cart_detail?.product_detail.quantity,
+            orderCode: cart_detail.orderCode,
+          })
+        );
+        if (checkoutOrder.fulfilled.match(result)) {
+          window.location.href = result.payload;
+        } else {
+          setAlert(false);
+          console.error(result.payload);
+        }
+      }
+    } catch (error) {
+      console.error(error);
       setAlert(false);
     }
   };
@@ -37,16 +55,16 @@ export default function Checkout() {
       </h1>
 
       {cart_detail ? (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="flex flex-col justify-center items-center gap-8">
           {/* Thông tin đơn hàng */}
           <div className="md:col-span-2 space-y-4">
-            <p>
+            <p className="text-center">
               <span className="font-semibold text-gray-700">Mã đơn hàng:</span>
               {cart_detail._id}
             </p>
 
             {cart_detail.product_detail?.snapshot && (
-              <div className="bg-gray-50 p-4 rounded-xl shadow-sm space-y-2">
+              <div className="bg-gray-50 p-4 rounded-xl text-center shadow-sm space-y-2">
                 <p>
                   <span className="font-semibold text-gray-700">
                     Tên sản phẩm:
@@ -97,8 +115,11 @@ export default function Checkout() {
             </p>
 
             {/* Nút hành động */}
-            <div className="flex gap-4 pt-4">
-              <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium shadow-md transition">
+            <div className="flex gap-4 pt-4 justify-center">
+              <button
+                // onClick={handleCancelPayment}
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium shadow-md transition"
+              >
                 Hủy đơn
               </button>
               <button
@@ -108,22 +129,17 @@ export default function Checkout() {
                 Thanh toán
               </button>
             </div>
+
+            {/* Thông báo */}
             <div>
-              {alert ? (
-                <Navigate to={"/user/my_order"} replace />
+              {alert === null ? (
+                <></>
+              ) : alert ? (
+                <p className="text-green-500">Thanh toán thành công!</p>
               ) : (
                 <p className="text-red-500">Thanh toán không thành công!</p>
               )}
             </div>
-          </div>
-
-          {/* QR Code */}
-          <div className="flex items-center justify-center">
-            <img
-              src="/qr.jpg"
-              alt="QR code thanh toán"
-              className="w-full max-w-xs rounded-lg shadow-md"
-            />
           </div>
         </div>
       ) : (
@@ -134,3 +150,4 @@ export default function Checkout() {
     </section>
   );
 }
+//

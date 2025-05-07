@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 interface IOrder extends mongoose.Document {
+  orderCode: number;
   users: mongoose.Types.ObjectId;
   product_items: {
     product_id: mongoose.Types.ObjectId;
@@ -44,6 +45,7 @@ interface IOrder extends mongoose.Document {
 
 const orderSchema = new mongoose.Schema<IOrder>(
   {
+    orderCode: { type: Number, required: true, unique: true },
     users: { type: Schema.Types.ObjectId, ref: "Account", required: true },
     product_items: [
       {

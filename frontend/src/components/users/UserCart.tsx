@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../features/app.store";
 import { useEffect } from "react";
 import { cancelCart, getCart } from "../../features/carts/cart.slice";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
 export default function UserCart() {
@@ -38,33 +37,7 @@ export default function UserCart() {
         <h1 className="text-3xl font-bold mb-6 text-center">
           Giỏ hàng của bạn
         </h1>
-        {/* Filter section */}
-        <div className="flex flex-wrap items-center justify-around gap-4 px-5">
-          <select
-            name="stateProduct"
-            className="flex-1 min-w-[180px] border-[1.5px] rounded-full border-gray-400 h-[40px] text-center bg-white shadow-sm hover:border-green-500 focus:ring-green-500"
-          >
-            <option value="">Tình trạng sản đơn hàng</option>
-            <option value="new">Mới</option>
-            <option value="used">Đã thanh toán</option>
-            <option value="used">Đã thanh giao</option>
-          </select>
 
-          <form className="relative flex-1 min-w-[200px]">
-            <input
-              type="text"
-              name="search"
-              className="w-full h-[40px] border-[1.5px] rounded-full text-center outline-0 border-gray-400 bg-white shadow-sm"
-              placeholder="Tìm kiếm..."
-            />
-            <button
-              type="submit"
-              className="absolute right-1 top-1 bottom-1 px-3 rounded-full bg-green-500 text-white"
-            >
-              <FontAwesomeIcon icon={["fas", "search"]} />
-            </button>
-          </form>
-        </div>
         {carts?.map((cart_items) => (
           <div key={cart_items._id} className="space-y-4">
             {cart_items.product_items.map((product_item) => (

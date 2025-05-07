@@ -1,40 +1,51 @@
+// server.ts
 import express from "express";
-import connectDB from "./src/config/db";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
+import PayOS from "@payos/node";
 
+import connectDB from "./src/config/db";
 import authRoutes from "./src/auths/auth.routes";
-import productRouter from "./src/products/product.routes";
-import cartRouter from "./src/carts/cart.routes";
-import orderRouter from "./src/orders/order.routes";
+import productRoutes from "./src/products/product.routes";
+import cartRoutes from "./src/carts/cart.routes";
+import orderRoutes from "./src/orders/order.routes";
+import paymentRoutes from "./src/payments/payment.routes";
+
 dotenv.config();
 
 const server = express();
 
-// Kết nối DB
+// Kết nối database
 connectDB();
 
-//cors
+// Khởi tạo PayOS
+export const payos = new PayOS(
+  process.env.PAYOS_CLIENT_ID as string,
+  process.env.PAYOS_API_KEY as string,
+  process.env.PAYOS_CHECKSUM_KEY as string
+);
+
+// Cấu hình CORS
 const corsOptions = {
-  origin: ["http://localhost:5173", "http://192.168.1.6:5173"], // Cho phép kết nối từ frontend
-  credentials: true, // Cho phép gửi cookie và xác thực (credentials)
+  origin: ["http://localhost:5173"],
+  credentials: true,
 };
 
 // Middleware
+server.use(cors(corsOptions));
 server.use(express.json());
 server.use(cookieParser());
-server.use(cors(corsOptions));
 
-//routes
+// Routes
 server.use("/api/auths", authRoutes);
-server.use("/api/products", productRouter);
-server.use("/api/carts", cartRouter);
-server.use("/api/orders", orderRouter);
-// Khởi tạo server
-const port = Number(process.env.PORT) || 5000;
+server.use("/api/products", productRoutes);
+server.use("/api/carts", cartRoutes);
+server.use("/api/orders", orderRoutes);
+server.use("/api/checkouts", paymentRoutes);
 
-server.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+// Server listen
+const PORT = Number(process.env.PORT) || 5000;
+server.listen(PORT, () => {
+  console.log(`🚀 Server is running on port ${PORT}`);
 });
-
