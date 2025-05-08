@@ -90,6 +90,61 @@ export const getProductForDetail = createAsyncThunk<
   }
 });
 
+//create product
+export const createProducts = createAsyncThunk<
+  string,
+  {
+    name: string;
+    price: number;
+    seller_id: string;
+    image: string;
+    brands: string;
+    attributes: {
+      name: string;
+      value: (string | number)[];
+    }[];
+    state_product: string;
+    type_product: string;
+  },
+  { rejectValue: string }
+>(
+  "product/create",
+  async (
+    {
+      name,
+      price,
+      attributes,
+      brands,
+      image,
+      state_product,
+      type_product,
+      seller_id,
+    },
+    thunkAPI
+  ) => {
+    try {
+      const response = await axios.post(`${productUrl}/create-new-product`, {
+        name,
+        price,
+        attributes,
+        image,
+        brands,
+        state_product,
+        type_product,
+        seller_id,
+      });
+      if (response.data) {
+        return response.data;
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return thunkAPI.rejectWithValue("Khoong the them moi san pham");
+      }
+      return thunkAPI.rejectWithValue("Khong ro loi!");
+    }
+  }
+);
+
 //delete product
 
 export const deleteProduct = createAsyncThunk<

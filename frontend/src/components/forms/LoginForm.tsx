@@ -38,9 +38,6 @@ export default function LoginForm() {
         case "seller":
           navigate("/seller/dashboard");
           break;
-        case "admin":
-          navigate("/admin/dashboard");
-          break;
         default:
           navigate("/");
       }

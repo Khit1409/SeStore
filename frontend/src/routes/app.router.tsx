@@ -6,11 +6,9 @@ import Register from "../pages/Register";
 import ProtectedRoutes from "./protected.routes";
 import RedirectByRole from "./redirect.role";
 
-import AdminLayout from "../layouts/AdminLayout";
 import SellerLayout from "../layouts/SellerLayout";
 import UserLayout from "../layouts/UserLayout";
 
-import AdminDashboard from "../components/admins/AdminDashboard";
 import SellerDashboard from "../components/seller/SellerDashboard";
 import ManagerProduct from "../components/seller/ManagerProduct";
 
@@ -24,6 +22,7 @@ import UserOrder from "../components/users/UserOrder";
 import PlaceOrder from "../components/users/Checkout";
 import ComfirmOrder from "../components/seller/ComfirmOrder";
 import ManagerOrder from "../components/seller/ManagerOrder";
+import CreateNewProduct from "../components/seller/createNewProduct";
 
 export const generateRouter = (users: DecodedUser | null) => {
   return createBrowserRouter([
@@ -33,25 +32,6 @@ export const generateRouter = (users: DecodedUser | null) => {
     },
     { path: "/login", element: <Login /> },
     { path: "/register", element: <Register /> },
-
-    {
-      element: (
-        <ProtectedRoutes allowedRoles={["admin"]} currentRole={users?.role} />
-      ),
-      children: [
-        {
-          path: "/admin",
-          element: <AdminLayout />,
-          children: [
-            { path: "/admin/dashboard", element: <AdminDashboard /> },
-            { path: "/admin/manager_users", element: <>MANAGER ACCOUNT</> },
-            { path: "/admin/support", element: <>Support</> },
-            { path: "/admin/mananger_sellers", element: <>Seller</> },
-          ],
-        },
-      ],
-    },
-
     {
       element: (
         <ProtectedRoutes allowedRoles={["seller"]} currentRole={users?.role} />
@@ -62,6 +42,7 @@ export const generateRouter = (users: DecodedUser | null) => {
           element: <SellerLayout />,
           children: [
             { path: "/seller/dashboard", element: <SellerDashboard /> },
+            { path: "/seller/create-product", element: <CreateNewProduct /> },
             { path: "/seller/myproduct", element: <ManagerProduct /> },
             { path: "/seller/comfirm_order", element: <ComfirmOrder /> },
             { path: "/seller/mystore_order", element: <ManagerOrder /> },

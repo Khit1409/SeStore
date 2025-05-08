@@ -11,8 +11,6 @@ const RedirectByRole = ({ users }: Props) => {
   if (!users) return <IndexLayout />;
 
   switch (users.role) {
-    case "admin":
-      return <Navigate to="/admin/dashboard" replace />;
     case "seller":
       return <Navigate to="/seller/dashboard" replace />;
     case "user":

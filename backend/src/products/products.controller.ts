@@ -114,39 +114,36 @@ export const createProducts = async (req: Request, res: Response) => {
       name,
       price,
       image,
-      description,
       brands,
       attributes,
       state_product,
       type_product,
     } = req.body;
+    const seller_id = new mongoose.Types.ObjectId(req.body.seller_id);
     const newProduct = new Product({
+      seller_id: seller_id,
       name,
       price,
       image,
-      description,
       brands,
       attributes,
       state_product,
       type_product,
     });
-
-    if (!newProduct) {
-      return res.status(401).json({ message: "Can not create new data!" });
-    }
     await newProduct.save();
-    res
-      .status(200)
-      .json({ message: "Create product successfull!", product: newProduct });
+    return res.status(200).json({ message: "Create product successfull!" });
   } catch (error) {
-    res.status(404).json({ message: "Can not create product!" });
+    return res.status(404).json({ message: "Can not create product!" });
   }
 };
+
 //xóa sản phẩm
 export const deleteProducts = async (req: Request, res: Response) => {
   try {
     const seller_id = new mongoose.Types.ObjectId(req.body.seller_id as string);
-    const product_id = new mongoose.Types.ObjectId(req.body.product_id as string);
+    const product_id = new mongoose.Types.ObjectId(
+      req.body.product_id as string
+    );
     const deleted_product = await Product.findByIdAndDelete({
       _id: product_id,
       sellerId: seller_id,

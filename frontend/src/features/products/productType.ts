@@ -17,10 +17,12 @@ export type ProductState = {
   products: ProductType[] | null;
   product_detail: ProductType | null;
   error: string | null;
+  mess: string | null;
 };
 
 export const productInitState: ProductState = {
   product_detail: null,
   products: null,
+  mess: null,
   error: null,
 };

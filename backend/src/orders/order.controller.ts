@@ -13,9 +13,7 @@ export const addToCart = async (req: Request, res: Response) => {
     if (!product) {
       return res.status(404).json({ message: "Sản phẩm không tồn tại" });
     }
-
     const orderCode = Date.now();
-
     const newCart = new Order({
       orderCode,
       users: user_id,

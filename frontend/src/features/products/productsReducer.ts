@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { productInitState } from "../products/productType";
 import {
+  createProducts,
   deleteProduct,
   getProductForDetail,
   getProductForSeller,
@@ -49,6 +50,16 @@ const productsSlice = createSlice({
         state.error = action.payload ?? "lỗi lấy sản phẩm về order";
         state.product_detail = null;
       })
+      .addCase(createProducts.pending, (state) => {
+        state.error = null;
+        state.mess = null;
+      })
+      .addCase(createProducts.fulfilled, (state, action) => {
+        state.mess = action.payload;
+      })
+      .addCase(createProducts.rejected, (state, action) => {
+        state.error = action.payload ?? "loi them san pham";
+      })
       .addCase(deleteProduct.pending, (state) => {
         state.error = null;
         state.products = null;
@@ -60,7 +71,6 @@ const productsSlice = createSlice({
         state.products = null;
         state.error = action.payload ?? "Lỗi xóa ";
       });
-      
   },
 });
 
