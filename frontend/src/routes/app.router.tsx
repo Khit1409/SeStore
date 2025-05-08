@@ -22,7 +22,7 @@ import UserOrder from "../components/users/UserOrder";
 import PlaceOrder from "../components/users/Checkout";
 import ComfirmOrder from "../components/seller/ComfirmOrder";
 import ManagerOrder from "../components/seller/ManagerOrder";
-import CreateNewProduct from "../components/seller/createNewProduct";
+import CreateNewProduct from "../components/seller/CreateNewProduct";
 
 export const generateRouter = (users: DecodedUser | null) => {
   return createBrowserRouter([
