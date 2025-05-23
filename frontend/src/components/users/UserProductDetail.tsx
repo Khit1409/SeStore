@@ -211,7 +211,7 @@ export default function UserProduct_detaill() {
                       onChange={(e) =>
                         setDataPost((prev) => ({
                           ...prev,
-                          method_Pay: e.target.value,
+                          method_pay: e.target.value,
                         }))
                       }
                       className="accent-green-500"

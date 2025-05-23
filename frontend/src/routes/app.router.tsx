@@ -1,27 +1,31 @@
 // src/routes/router.tsx
 import { createBrowserRouter } from "react-router-dom";
-
 import Login from "../pages/Login";
+
 import Register from "../pages/Register";
 import ProtectedRoutes from "./protected.routes";
+
 import RedirectByRole from "./redirect.role";
-
 import SellerLayout from "../layouts/SellerLayout";
+
 import UserLayout from "../layouts/UserLayout";
-
 import SellerDashboard from "../components/seller/SellerDashboard";
-import ManagerProduct from "../components/seller/ManagerProduct";
 
+import ManagerProduct from "../components/seller/ManagerProduct";
 import Dashboard from "../pages/users/Dashboard";
+
 import Shop from "../pages/users/Shop";
 import Cart from "../pages/users/Cart";
 
 import { DecodedUser } from "../features/type";
 import UserProductDetail from "../components/users/UserProductDetail";
+
 import UserOrder from "../components/users/UserOrder";
 import PlaceOrder from "../components/users/Checkout";
+
 import ComfirmOrder from "../components/seller/ComfirmOrder";
 import ManagerOrder from "../components/seller/ManagerOrder";
+
 import CreateNewProduct from "../components/seller/CreateNewProduct";
 
 export const generateRouter = (users: DecodedUser | null) => {
