@@ -1,0 +1,20 @@
+{
+  "name": "sestore.com",
+  "version": "1.0.0",
+  "description": "**Se Store** là một nền tảng thương mại điện tử được xây dựng bằng công nghệ Fullstack hiện đại. Ứng dụng cho phép người dùng mua sắm, trò chuyện với người bán, thanh toán trực tuyến, đồng thời cung cấp hệ thống quản lý sản phẩm và người dùng cho cả admin và người bán.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Khit1409/SeStore.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Khit1409/SeStore/issues"
+  },
+  "homepage": "https://github.com/Khit1409/SeStore#readme"
+}
